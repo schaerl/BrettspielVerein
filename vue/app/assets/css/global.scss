@@ -1,10 +1,68 @@
-@use "sass:meta";
+@import "tailwindcss";
+@import "@nuxt/ui";
 
-$my-body-font-family: "DM Sans", sans-serif !default;
+@theme {
+  --font-sans: "DM Sans", sans-serif;
+}
 
-@use "vuetify" with (
-    $body-font-family: meta.inspect($my-body-font-family)
-);
+/* Custom Colors */
+:root {
+  --color-primary-50: #fdf9f1;
+  --color-primary-100: #fcf3e4;
+  --color-primary-200: #f8e2bf;
+  --color-primary-300: #f1c988;
+  --color-primary-400: #eaac48;
+  --color-primary-500: #F2CC8F;
+  --color-primary-600: #d28913;
+  --color-primary-700: #99620b;
+  --color-primary-800: #6b460a;
+  --color-primary-900: #452d08;
+  --color-primary-950: #2e1e05;
+  --color-secondary-50: #fbfaf4;
+  --color-secondary-100: #f7f5e8;
+  --color-secondary-200: #ede8c9;
+  --color-secondary-300: #ded59c;
+  --color-secondary-400: #ccbe66;
+  --color-secondary-500: #F4F1DE;
+  --color-secondary-600: #af9f37;
+  --color-secondary-700: #7e7225;
+  --color-secondary-800: #59511c;
+  --color-secondary-900: #393413;
+  --color-secondary-950: #26230d;
+  --color-tertiary-50: #f6f9f6;
+  --color-tertiary-100: #edf2ed;
+  --color-tertiary-200: #d5e1d6;
+  --color-tertiary-300: #b1c8b2;
+  --color-tertiary-400: #87ab89;
+  --color-tertiary-500: #486649;
+  --color-tertiary-600: #5e885f;
+  --color-tertiary-700: #426143;
+  --color-tertiary-800: #304531;
+  --color-tertiary-900: #202d20;
+  --color-tertiary-950: #151e15;
+  --color-header-50: #f6f6f9;
+  --color-header-100: #ededf3;
+  --color-header-200: #d4d6e2;
+  --color-header-300: #b0b2ca;
+  --color-header-400: #8589ad;
+  --color-header-500: #3D405B;
+  --color-header-600: #5b608b;
+  --color-header-700: #404363;
+  --color-header-800: #2e3147;
+  --color-header-900: #1f202e;
+  --color-header-950: #14151f;
+  --color-footer-50: #f6f9f7;
+  --color-footer-100: #ecf3f0;
+  --color-footer-200: #d3e4db;
+  --color-footer-300: #adcdbd;
+  --color-footer-400: #80b29a;
+  --color-footer-500: #81B29A;
+  --color-footer-600: #569073;
+  --color-footer-700: #3c6752;
+  --color-footer-800: #2c4a3b;
+  --color-footer-900: #1d2f26;
+  --color-footer-950: #13201a;
+}
 
 .hover-link {
     transition: all 0.3s ease-in-out;
