@@ -4,8 +4,8 @@ const { xs } = useDisplay();
 </script>
 
 <template>
-  <VContainer class="footer-content">
-    <VRow>
+  <UContainer class="footer-content">
+   <!-- <VRow>
       <VCol :cols="xs ? 8 : ''">
         <VContainer>
           <VRow>
@@ -32,8 +32,8 @@ const { xs } = useDisplay();
           </VRow>
         </VContainer>
       </VCol>
-    </VRow>
-  </VContainer>
+   </VRow> -->
+  </UContainer>
 
   <WaveVariant1
     lower

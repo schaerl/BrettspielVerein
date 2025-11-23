@@ -32,9 +32,9 @@ function submit(event: SubmitEvent) {
 </script>
 
 <template>
-  <VForm v-model="isFormValid" @submit.prevent="submit">
-    <VContainer>
-      <VRow class="ga-4">
+  <UForm v-model="isFormValid" @submit.prevent="submit">
+    <UContainer>
+     <!-- <VRow class="ga-4">
         <VTextField
           bg-color="background"
           label="Name"
@@ -74,9 +74,9 @@ function submit(event: SubmitEvent) {
           rounded="pill"
           >Absenden</VBtn
         >
-      </VRow>
-    </VContainer>
-  </VForm>
+      </VRow> -->
+    </UContainer>
+  </UForm>
 </template>
 
 <style scoped></style>

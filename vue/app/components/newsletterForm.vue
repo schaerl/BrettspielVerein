@@ -27,8 +27,8 @@ function submit(event: SubmitEvent) {
 </script>
 
 <template>
-  <VForm @submit.prevent v-model="isFormValid">
-    <VTextField
+  <UForm @submit.prevent v-model="isFormValid">
+    <UInput
       label="Email"
       elevation="0"
       rounded="xl"
@@ -38,18 +38,18 @@ function submit(event: SubmitEvent) {
       v-model="data.email"
     >
       <template #append-inner>
-        <VBtn
+        <UButton
           @click="submit"
           class="text-onPrimary"
           elevation="0"
           rounded="pill"
           type="submit"
           color="primary"
-          >Abonnieren</VBtn
+          >Abonnieren</UButton
         >
       </template>
-    </VTextField>
-  </VForm>
+    </UInput>
+  </UForm>
 </template>
 
 <style lang="scss" scoped></style>

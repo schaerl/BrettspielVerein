@@ -5,8 +5,15 @@
   --font-sans: "DM Sans", sans-serif;
 }
 
-/* Custom Colors */
+
 :root {
+  --breakpoint-xs: 0,
+  --breakpoint-sm: 600px,
+  --breakpoint-md: 960px,
+  --breakpoint-lg: 1280px,
+  --breakpoint-xl: 1920px,
+  --breakpoint-2xl: 2561px,
+
   --color-primary-50: #fdf9f1;
   --color-primary-100: #fcf3e4;
   --color-primary-200: #f8e2bf;

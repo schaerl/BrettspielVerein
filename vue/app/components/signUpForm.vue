@@ -33,10 +33,10 @@ function submit(event: SubmitEvent) {
 </script>
 
 <template>
-  <VSheet class="pa-5 bg-header rounded-xl">
+	<!--  <VSheet class="pa-5 bg-header rounded-xl"> -->
     <h3 class="mb-3">Werde Mitglied</h3>
-    <VForm v-model="isFormValid" @submit.prevent="submit">
-      <VTextField
+    <UForm v-model="isFormValid" @submit.prevent="submit">
+    <!--  <VTextField
         bg-color="background"
         label="Vorname"
         v-model="formData.firstName"
@@ -89,15 +89,15 @@ function submit(event: SubmitEvent) {
         rounded="xl"
         variant="solo"
       ></VTextarea>
-      <VBtn
+      <UButton
         type="submit"
         class="w-100 text-onPrimary"
         color="primary"
         rounded="pill"
-        >Anmelden</VBtn
-      >
-    </VForm>
-  </VSheet>
+        >Anmelden</UButton
+	> -->
+    </UForm>
+    <!--/VSheet-->
 </template>
 
 <style lang="scss" scoped></style>

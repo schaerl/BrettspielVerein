@@ -1,5 +1,5 @@
 <template>
-  <VContainer>
+  <UContainer>
     <div class="numbered-titles-container">
       <h1>Datenschutzerklärung</h1>
       <h2>Datenschutzerklärung</h2>
@@ -116,7 +116,7 @@
         "www.brettspiel-zofingen.ch/privacy.html" abgerufen werden.
       </div>
     </div>
-  </VContainer>
+  </UContainer>
 </template>
 
 <style scoped>

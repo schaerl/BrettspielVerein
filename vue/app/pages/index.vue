@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { xs } = useDisplay();
+//const { xs } = useDisplay();
 
 const goTo = useOffsetGoTo();
 
@@ -29,27 +29,27 @@ const { alertData, triggerAlert } = useAlert();
   <div ref="home">
     <AlertContainer :alertData="alertData"></AlertContainer>
     <ImageContainer :variant="1">
-      <VContainer>
-        <VRow><WelcomeBanner></WelcomeBanner></VRow>
-        <VRow class="ga-4 mt-6">
-          <VBtn
+      <UContainer>
+      <!--<VRow><WelcomeBanner></WelcomeBanner></VRow> -->
+      <!--  <VRow class="ga-4 mt-6">
+          <UButton
             color="primary"
             elevation="0"
             variant="flat"
             rounded="pill"
             @click="goTo(sectionUs!)"
             >Über uns
-          </VBtn>
-          <VBtn
+          </UButton>
+          <UButton
             color="black"
             elevation="0"
             variant="text"
             rounded="pill"
             @click="goTo(sectionMembership!)"
-            >Werde Mitglied</VBtn
+            >Werde Mitglied</UButton
           >
-        </VRow>
-      </VContainer>
+      </VRow> -->
+      </UContainer>
     </ImageContainer>
 
     <Section ref="section_us" :title="'Über uns'">
@@ -82,9 +82,9 @@ const { alertData, triggerAlert } = useAlert();
         <WhatsappCode></WhatsappCode>
       </template>
     </ImageContainer>
-    <VContainer>
+    <UContainer>
       <Section ref="section_membership" title="Vereinsmitgliedschaft">
-        <VRow>
+	<!-- <VRow>
           <VCol>
             <h2 class="mb-4">Mitglieschaftsvorteile</h2>
             <MembershipTable></MembershipTable>
@@ -93,19 +93,19 @@ const { alertData, triggerAlert } = useAlert();
             <h2 class="mb-4">Anmeldung Mitgliedschaft</h2>
             <SignUpForm @on-submission="(event: AlertStatus) => triggerAlert(event)"></SignUpForm>
           </VCol>
-        </VRow>
+	</VRow> -->
       </Section>
       <Section ref="section_events" title="Die nächsten Veranstaltungen">
-        <VSheet color="secondary" class="pa-4" rounded="xl">
+       <!-- <VSheet color="secondary" class="pa-4" rounded="xl">
           <VRow class="flex-column">
             <VCol v-for="eventData in data" :key="eventData.id">
               <EventCard :data="eventData"> </EventCard>
             </VCol>
           </VRow>
-        </VSheet>
+       </VSheet>-->
       </Section>
       <Section ref="section_contact" title="Kontakt">
-        <VRow>
+        <!-- <VRow>
           <VCol :cols="xs ? 12 : 6">
             <h2 class="mb-2">Fragen?</h2>
             <VSheet color="secondary" class="pa-4" rounded="xl">
@@ -118,8 +118,8 @@ const { alertData, triggerAlert } = useAlert();
             <h2 class="mb-2">Wo spielen wir?</h2>
             <MapWrapper></MapWrapper>
           </VCol>
-        </VRow>
+	</VRow>-->
       </Section>
-    </VContainer>
+    </UContainer>
   </div>
 </template>

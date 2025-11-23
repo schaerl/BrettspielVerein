@@ -3,14 +3,14 @@ const { size = 50, onPrimary = false } = defineProps<{
   size?: number;
   onPrimary?: boolean;
 }>();
-const theme = useTheme();
+//const theme = useTheme();
 const calculatedColor = computed(() => {
-  return onPrimary ? theme.current.value.colors.onPrimary : "black";
+  return onPrimary ? "white" /*theme.current.value.colors.onPrimary*/ : "black";
 });
 </script>
 <template>
   <NuxtLink to="/">
-    <VRow class="d-inline-flex align-center grow-link">
+<!--    <VRow class="d-inline-flex align-center grow-link">
       <VCol
         ><img
           :class="{ invert: onPrimary }"
@@ -23,7 +23,7 @@ const calculatedColor = computed(() => {
           <small>Zofingen</small>
         </span>
       </VCol>
-    </VRow>
+</VRow> -->
   </NuxtLink>
 </template>
 

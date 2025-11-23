@@ -3,9 +3,10 @@ const props = defineProps<{ data: EventData }>();
 </script>
 
 <template>
-  <VCard class="rounded-xl">
+<UPageCard class="rounded-xl"
+           title="data.name">
     <div class="d-flex flex-wrap">
-      <VChip
+      <UBadge
         color="footer"
         variant="flat"
         class="ma-4"
@@ -13,16 +14,11 @@ const props = defineProps<{ data: EventData }>();
         style="width: 100px"
       >
         {{ data.date }}
-      </VChip>
-      <VAvatar class="ma-3" rounded="0" size="250">
-        <VImg src="/Logo1.png"></VImg>
-      </VAvatar>
+      </UBadge>
+      <UAvatar class="ma-3" rounded="0" size="250" src="/Logo1.png" />
       <div>
-        <VCardTitle class="text-h5" style="white-space: normal">
-          {{ data.name }}
-        </VCardTitle>
         <EventDetails :data> </EventDetails>
       </div>
     </div>
-  </VCard>
+  </UPageCard>
 </template>

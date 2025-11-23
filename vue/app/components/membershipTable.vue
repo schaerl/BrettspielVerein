@@ -2,7 +2,7 @@
 
 <template>
   <div class="">
-    <VTable class="w-100 rounded-xl">
+    <UTable class="w-100 rounded-xl">
       <thead>
         <tr>
           <th>Jährlich</th>
@@ -13,17 +13,17 @@
         <tr>
           <td>1 Jahr Gratiseintritt</td>
           <td>
-            <VIcon icon="mdi-check-circle" color="green" size="small"></VIcon>
+            <UIcon icon="mdi-check-circle" color="green" size="small"></UIcon>
           </td>
         </tr>
         <tr>
           <td>Verleih der Vereinsspiele</td>
           <td>
-            <VIcon icon="mdi-check-circle" color="green" size="small"></VIcon>
+            <UIcon icon="mdi-check-circle" color="green" size="small"></UIcon>
           </td>
         </tr>
       </tbody>
-    </VTable>
+    </UTable>
   </div>
 </template>
 

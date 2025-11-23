@@ -16,7 +16,7 @@ const isFirstElementActive = computed(() => {
     <h1>Willkommen beim Brettspielverein Zofingen</h1>
     <h2>
       <span>Brettspiele</span>
-      <v-carousel
+     <!-- <v-carousel
         cycle
         continuous
         :direction="'vertical'"
@@ -32,7 +32,7 @@ const isFirstElementActive = computed(() => {
           <v-carousel-item>machen Spass</v-carousel-item>
           <v-carousel-item>verbinden uns</v-carousel-item>
         </div>
-      </v-carousel>
+     </v-carousel> -->
     </h2>
   </div>
 </template>

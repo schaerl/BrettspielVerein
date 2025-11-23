@@ -6,7 +6,7 @@ const formattedPrice = computed(() =>
 </script>
 
 <template>
-  <VContainer>
+  <UContainer>
     <table>
       <tbody>
         <tr>
@@ -23,7 +23,7 @@ const formattedPrice = computed(() =>
         </tr>
       </tbody>
     </table>
-  </VContainer>
+  </UContainer>
 </template>
 
 <style scoped>

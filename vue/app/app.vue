@@ -1,39 +1,45 @@
 <script setup lang="ts">
-const goTo = useOffsetGoTo();
+//const goTo = useOffsetGoTo();
 
 const { headers, receiver } = useNavHeaderReceiver();
 
 const drawerVisibility = ref(false);
-const { mdAndUp } = useDisplay();
+//const { mdAndUp } = useDisplay();
 </script>
 
 <template>
-  <VApp>
-    <VAppBar :elevation="0" color="header">
-      <VContainer>
-        <VRow class="align-center justify-space-between px-4">
+  <UApp>
+    <UHeader :elevation="0" color="header">
+      <UContainer>
+      <!-- <VRow class="align-center justify-space-between px-4"> -->
           <LogoTextWrapper onPrimary></LogoTextWrapper>
           <div ref="test" class="nav-container" v-if="headers?.length !== 0">
-            <template v-if="mdAndUp">
-              <div
+            <!--template v-if="mdAndUp"-->
+            <template v-if="true">
+              <!--div
                 v-for="sec in headers"
                 class="hover-link d-inline mx-2"
                 @click="goTo(unref(sec.goal.ref)!)"
+                :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
+              -->
+              <div
+                v-for="sec in headers"
+                class="hover-link d-inline mx-2"
                 :class="{ 'scrolled-over': sec.goal.isScrolledOver }"
               >
                 {{ sec?.displayName }}
               </div>
             </template>
-            <VBtn
+            <UButton
               v-else
               @click.stop="drawerVisibility = !drawerVisibility"
               icon="mdi-menu"
-            ></VBtn>
+            ></UButton>
           </div>
-        </VRow>
-      </VContainer>
-    </VAppBar>
-    <VNavigationDrawer v-model="drawerVisibility" location="right" temporary>
+	  <!-- </VRow> -->
+      </UContainer>
+    </UHeader>
+    <!--<VNavigationDrawer v-model="drawerVisibility" location="right" temporary>
       <VList class="nav-container">
         <VListItem
           v-for="sec in headers"
@@ -44,14 +50,14 @@ const { mdAndUp } = useDisplay();
           {{ sec.displayName }}
         </VListItem>
       </VList>
-    </VNavigationDrawer>
-    <VMain ref="myself">
+    </VNavigationDrawer> -->
+    <UMain ref="myself">
       <NuxtPage :navReceiver="receiver"></NuxtPage>
-    </VMain>
-    <VFooter class="footer pa-0">
+    </UMain>
+    <UFooter class="footer pa-0">
       <PageFooter></PageFooter>
-    </VFooter>
-  </VApp>
+    </UFooter>
+  </UApp>
 </template>
 <style scoped>
 .footer {

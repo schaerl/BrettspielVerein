@@ -3,24 +3,32 @@ const props = defineProps<{
   variant?: Number;
 }>();
 
-const { xs } = useDisplay();
+//const { xs } = useDisplay();
 
 const slots = useSlots();
-const theme = useTheme();
+//const theme = useTheme();
 </script>
 
 <template>
   <div :class="[variant === 1 ? 'img1' : 'img2']">
-    <WaveVariant1
+    <!--WaveVariant1
       v-if="variant === 1"
       :color="theme.current.value.colors.header"
     ></WaveVariant1>
     <WaveVariant2
       v-else-if="variant === 2"
       :color="theme.current.value.colors.background"
+    ></WaveVariant2-->
+    <WaveVariant1
+      v-if="variant === 1"
+      :color="black"
+    ></WaveVariant1>
+    <WaveVariant2
+      v-else-if="variant === 2"
+      :color="white"
     ></WaveVariant2>
-    <VContainer>
-      <VRow>
+    <UContainer>
+    <!--  <URow>
         <VCol :cols="xs ? 12 : 6">
           <VSheet rounded="xl" class="semi-transparent pa-4">
             <slot></slot>
@@ -32,7 +40,7 @@ const theme = useTheme();
           </VSheet>
         </VCol>
       </VRow>
-    </VContainer>
+    </UContainer>
     <WaveVariant1
       v-if="variant === 1"
       lower
