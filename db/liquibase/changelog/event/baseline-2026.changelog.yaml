@@ -184,3 +184,15 @@ databaseChangeLog:
         - column:
             name: location
             value: 'Strengelbacherstrasse 29, 4800 Zofingen'
+- changeSet:
+    id: 'event-data-6'
+    author: schaerl
+    comment: Update März (Ausweichtermin Velobörse Spittelhof)
+    changes:
+    -  update:
+        tableName: event
+        columns:
+        - column:
+            name: date
+            value: '2026-03-20'
+        where: date='2026-03-27'
