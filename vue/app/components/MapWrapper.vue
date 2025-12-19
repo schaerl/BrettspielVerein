@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer, LControl, LMarker } from "@maxel01/vue-leaflet";
+import { LMap, LTileLayer, LControl, LMarker, LPopup } from "@maxel01/vue-leaflet";
 </script>
 
 <template>
