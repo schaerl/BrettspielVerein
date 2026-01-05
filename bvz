@@ -62,7 +62,7 @@ buildFrontend() {
 
 buildDbDockerImage() {
     echo "Building the liquibase image for DB Migration"
-    docker build --build-arg USER_ID=$(id -u) docker/liquibase -t $LIQUIBASE_DOCKER_IMAGE
+    docker build --build-arg USER_ID=$(id -u) ./docker/liquibase -t $LIQUIBASE_DOCKER_IMAGE
 }
 
 buildDist() {
