@@ -1,0 +1,29 @@
+name: Liquibase
+
+on: workflow-dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  update-database:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build liquibase docker container
+      run: docker build --build-arg USER_ID=$(id -u) ./docker/liquibase -t bvz/liquibase-mysql:latest
+
+      working_directory: db/liquibase/changelog
+      run: |
+        sed -e "s/<user>/$LIQUIBASE_USER" liquibase.prod.properties.template > liquibase.prod.properties;
+
+
+    - name: Run migration
+      with: 
+        LIQUIBASE_PW: ${{ secrets.LIQUIBASE_PROD_SECRET }}
+        LIQUIBASE_USER: ${{ secrets.LIQUIBASE_PROD_USER }}
+        LIQUIBASE_URL: ${{ secrets.LIQUIBASE_PRODPROD__URL }}
+      run: docker run --rm -v ./db/liquibase/changelog:/liquibase/changelog bvz/liquibase-mysql:latest --changelogFile changelog/root.changelog.yaml --url $"LIQUIBASE_URL" --user $"LIQUIBASE_USER" --password $"LIQUIBASE_PW"
+
