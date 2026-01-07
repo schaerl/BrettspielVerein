@@ -1,0 +1,3 @@
+open BVZ
+local pwd
+mirror -R -v -P 50 dist/app public_html_old

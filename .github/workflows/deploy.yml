@@ -1,0 +1,80 @@
+name: Deploy
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    environment: Build
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Prepare directory
+      run: mkdir -p ./dist/app
+
+    - name: Build frontend
+      working-directory: vue
+      run: |
+        npm ci
+        npx nuxt generate
+
+    - name: Copy frontend
+      run: cp -r vue/.output/public/* ./dist/app/
+
+    - name: Build backend
+      run: |
+        cp -r ./backend/api ./dist/app/
+        cp ./backend/composer.json ./dist/app/
+        cp ./backend/composer.lock ./dist/app/
+        cd ./dist/app/
+        composer install --prefer-dist --no-dev --optimize-autoloader
+        composer dump-autoload -o
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build_no_env
+        path: ./dist/app
+
+
+  release:
+    runs-on: ubuntu-latest
+    environment: Build
+    needs: build-release
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Retrieve build
+      uses: actions/download-artifact@v5
+      with:
+        name: build_no_env
+        path: ./dist/app
+
+    - name: Extract .env from secrets
+      run: mkdir -p dist/app
+
+    - name: Extract .env from secrets
+      env: 
+        APP_ENV: ${{ secrets.APP_ENV }}
+      run: echo -n "$APP_ENV" | base64 -di > dist/app/.env
+
+    - name: Install lftp
+      run: sudo apt-get install lftp -y
+
+    - name: Setup lftp connection
+      run: lftp -c bookmark add BVZ $FTP_USER:$FTP_PW@$FTP_URL
+      env:
+        FTP_URL: ${{ secrets.FTP_URL }}
+        FTP_USER: ${{ secrets.FTP_USER }}
+        FTP_PW: ${{ secrets.FTP_PW }}
+
+    - name: Run backup script
+      run: lftp -f scripts/backup.lftp
+
+    - name: Upload new version
+      run: lftp -f scripts/upload_build.lftp
