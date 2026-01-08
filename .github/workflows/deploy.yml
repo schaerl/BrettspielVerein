@@ -16,23 +16,68 @@ jobs:
     - name: Prepare directory
       run: mkdir -p ./dist/app
 
+    - name: Retrieve node build cache
+      uses: actions/cache/restore@v4
+      id: get-node-cache
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
+
+    - name: Install frontend dependencies
+      if: steps.get-node-cache.outputs.cache-hit != 'true'
+      working-directory: vue
+      run: npm ci
+        npx nuxt generate
+
     - name: Build frontend
       working-directory: vue
-      run: |
-        npm ci
-        npx nuxt generate
+      run: npx nuxt generate
+
+    - name: Cache node build
+      if: steps.get-node-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
 
     - name: Copy frontend
       run: cp -r vue/.output/public/* ./dist/app/
 
-    - name: Build backend
+    - name: Retrieve PHP build cache
+      uses: actions/cache/restore@v4
+      id: get-php-cache
+      with:
+        path: |
+          ./backend/vendor
+        key: php-prod-${{ hashFiles('./dist/app/composer.lock')}}
+
+    - name: Prepare backend files
+      if: steps.get-php-cache.outputs.cache-hit != 'true'
       run: |
         cp -r ./backend/api ./dist/app/
         cp ./backend/composer.json ./dist/app/
         cp ./backend/composer.lock ./dist/app/
-        cd ./dist/app/
-        composer install --prefer-dist --no-dev --optimize-autoloader
-        composer dump-autoload -o
+
+    - name: Install backend dependencies
+      if: steps.get-php-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-dev --optimize-autoloader
+      working-directory: ./dist/app
+
+    - name: Store PHP build cache
+      if: steps.get-php-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ./dist/app/vendor
+        key: php-prod-${{ hashFiles('./dist/app/composer.lock')}}
+
+    - name: Generate Autoload
+      run: composer dump-autoload -o
+      working-directory: ./dist/app
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v4

@@ -24,22 +24,28 @@ jobs:
       run: cp .env.example .env
       working-directory: ./backend
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
+    - name: Restore Composer dev cache packages
+      id: composer-cache-restore
+      uses: actions/cache/restore@v4
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        path: ./backend/vendor
+        key: php-dev-${{ hashFiles('**/composer.lock') }}
 
     - name: Add PHPUnit
       run: composer require --dev phpunit/phpunit ^10
       working-directory: ./backend
 
     - name: Install dependencies
+      if: steps.composer-cache-restore.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
       working-directory: ./backend
+
+    - name: Save Composer dev cache packages
+      if: steps.composer-cache-restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ./backend/vendor
+        key: php-dev-${{ hashFiles('**/composer.lock') }}
 
     - name: Run test suite
       run: ./vendor/bin/phpunit --configuration phpunit.xml

@@ -16,9 +16,28 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Retrieve build cache
+      uses: actions/cache/restore@v4
+      id: get-cache
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
+
     - name: Install frontend
+      if: steps.get-cache.outputs.cache-hit != 'true'
       run: npm ci
       working-directory: ./vue
+
+    - name: Cache build
+      if: steps.get-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
 
     - name: Run test suite
       run: npm test
