@@ -1,6 +1,0 @@
-open BVZ
-source -e "date +'rm -rf test-bu/%Y%m%d/'"
-source -e "date +'mkdir -fp test-bu/%Y%m%d/'"
-source -e "date +'mmv public_html_old/* test-bu/%Y%m%d/'"
-source -e "date +'mmv public_html_old/.env* test-bu/%Y%m%d/'"
-

@@ -1,0 +1,12 @@
+name: Deploy Test
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  build-release:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: test

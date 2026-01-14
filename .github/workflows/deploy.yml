@@ -1,6 +1,11 @@
 name: Deploy
 
-on: workflow_dispatch
+on: 
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -119,7 +124,7 @@ jobs:
         FTP_PW: ${{ secrets.FTP_PW }}
 
     - name: Run backup script
-      run: lftp -f scripts/backup.lftp
+      run: lftp -f scripts/backup_${{ inputs.environment }}.lftp
 
     - name: Upload new version
-      run: lftp -f scripts/upload_build.lftp
+      run: lftp -f scripts/upload_build_${{ inputs.environment }}.lftp
