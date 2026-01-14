@@ -9,4 +9,9 @@ jobs:
   build-release:
     uses: ./.github/workflows/deploy.yml
     with:
-      environment: prod
+      target: prod
+    secrets:
+      APP_ENV: ${{ secrets.APP_ENV }}
+      FTP_USER: ${{ secrets.FTP_USER }}
+      FTP_PW: ${{ secrets.FTP_PW }}
+      FTP_URL: ${{ secrets.FTP_URL }}

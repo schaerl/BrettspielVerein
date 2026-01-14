@@ -3,8 +3,17 @@ name: Deploy
 on: 
   workflow_call:
     inputs:
-      environment:
+      target:
         type: string
+        required: true
+    secrets:
+      APP_ENV:
+        required: true
+      FTP_USER:
+        required: true
+      FTP_PW:
+        required: true
+      FTP_URL:
         required: true
 
 permissions:
@@ -124,7 +133,7 @@ jobs:
         FTP_PW: ${{ secrets.FTP_PW }}
 
     - name: Run backup script
-      run: lftp -f scripts/backup_${{ inputs.environment }}.lftp
+      run: lftp -f scripts/backup_${{ inputs.target }}.lftp
 
     - name: Upload new version
-      run: lftp -f scripts/upload_build_${{ inputs.environment }}.lftp
+      run: lftp -f scripts/upload_build_${{ inputs.target }}.lftp
