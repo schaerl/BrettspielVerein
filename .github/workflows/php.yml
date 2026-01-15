@@ -31,10 +31,6 @@ jobs:
         path: ./backend/vendor
         key: php-dev-${{ hashFiles('**/composer.lock') }}
 
-    - name: Add PHPUnit
-      run: composer require --dev phpunit/phpunit ^10
-      working-directory: ./backend
-
     - name: Install dependencies
       if: steps.composer-cache-restore.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress
