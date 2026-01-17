@@ -165,7 +165,7 @@ unittest() {
     container_name=php_unit_test
     echo "Running backend tests"
     docker container rm $container_name &> /dev/null
-    docker run --name $container_name --user $(id -u):$(id -g) -v ./backend/:/app $PHPUNIT_DOCKER_IMAGE phpunit --configuration phpunit.xml
+    docker run --name $container_name --user $(id -u):$(id -g) -v ./backend/:/app $SERVER_DOCKER_IMAGE /app/vendor/bin/phpunit --configuration /app/phpunit.xml
     backend_exit_code=$(docker wait $container_name)
 
     echo "Running frontend tests"
@@ -231,6 +231,7 @@ Description:
     - npx -- <sub-command>: Executes the given <sub-command> for npx, e.g. nuxt prepare
     - migrateDevDb: Apply the current changelog to the Dev DB.
     - migrateProdDb: Apply the current changelog to the PROD DB, requires -p option
+    - updateBackend: Update the backend dependencies
     - stop: Stops any running instances.
     - test: Run all frontend and backend tests
 
@@ -323,6 +324,9 @@ migrateProdDb)
         exit 1
     fi
     migrateProdDb
+    ;;
+updateBackend)
+    buildBackendForDev
     ;;
 stop)
     stop

@@ -1,5 +1,7 @@
 FROM php:8.4-apache
 RUN docker-php-ext-install pdo pdo_mysql
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
 # Allow CORS for the frontend devServer
 COPY 001-cors.conf /etc/apache2/conf-enabled/001-cors.conf
 RUN a2enmod headers

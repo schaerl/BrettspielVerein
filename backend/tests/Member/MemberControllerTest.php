@@ -52,15 +52,15 @@ class MemberControllerTest extends TestCase
         $mockService = $this->createMock(MemberService::class);
         $mockService->expects($this->once())
                     ->method('register')
-                    ->will($this->returnCallback(function(MemberDTO $dto){
+                    ->willReturnCallback(function(MemberDTO $dto)
+                    {
                         $this->assertEquals('unit@test.com', $dto->email);
                         $this->assertEquals('Unit', $dto->firstName);
                         $this->assertEquals('Test', $dto->lastName);
                         $this->assertEquals('Teststreet', $dto->address1);
                         $this->assertEquals('Testcity', $dto->address2);
                         $this->assertEquals('Hello there!', $dto->message);
-                    })
-        );
+                    });
 
         $controller = new MemberController($mockParser, $mockService);
 
