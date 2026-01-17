@@ -10,7 +10,7 @@ services:
       - dev
       - inttest
   server:
-    build: ./docker/server
+    image: bvz/php:latest
     user: "${USER}:${GROUP}"
     ports:
       - "80:80"
@@ -41,7 +41,7 @@ services:
   frontend:
     environment:
       - NUXT_PUBLIC_API_URL="http://localhost:80"
-    image: "node:22.14.0-alpine"
+    image: "node:24.12-alpine"
     user: "node"
     working_dir: /home/node/app
     volumes:
@@ -52,18 +52,14 @@ services:
     profiles:
       - dev
   inttest:
-    build: ./docker/intTest
+    image: bvz/php:latest
     ports:
       - "80:80"
+    volumes:
+      - ./dist/app:/var/www/html # For the code
+      - ./logging/:/log/
     networks:
       - bvz_network
-    volumes:
-      - ./dist/app:/opt/app
-    command:
-      - -S
-      - 0.0.0.0:80
-      - -t
-      - /opt/app
     profiles:
       - inttest
 volumes:

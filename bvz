@@ -5,6 +5,7 @@
 # =============================================================
 
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
+SERVER_DOCKER_IMAGE=bvz/php:latest
 NODE_DOCKER_IMAGE=node:24.12-alpine
 COMPOSER_DOCKER_IMAGE=composer/composer
 PHPUNIT_DOCKER_IMAGE=jitesoft/phpunit:8.2
@@ -40,6 +41,7 @@ buildBackendForIT() {
     echo "Calling PHP composer for IntegrationTest environment"
     cp -r backend/api $DIST_APP_DIR
     cp backend/.env $DIST_APP_DIR
+    cp backend/.htaccess $DIST_APP_DIR
     cp backend/composer.json $DIST_APP_DIR
     cp backend/composer.lock $DIST_APP_DIR
 
@@ -63,6 +65,11 @@ buildFrontend() {
 buildDbDockerImage() {
     echo "Building the liquibase image for DB Migration"
     docker build --build-arg USER_ID=$(id -u) ./docker/liquibase -t $LIQUIBASE_DOCKER_IMAGE
+}
+
+buildServerDockerImage() {
+    echo "Building the PHP Server image"
+    docker build ./docker/server -t $SERVER_DOCKER_IMAGE
 }
 
 buildDist() {
@@ -139,6 +146,7 @@ migrateProdDb() {
 init() {
     echo "Setup for development"
     buildDbDockerImage
+    buildServerDockerImage
     migrateDevDb
 
     installFrontend
@@ -146,7 +154,7 @@ init() {
     buildBackendForDev
     cp ./backend/.env.example ./backend/.env
     
-    mkdir logging # required for logging in server
+    mkdir -p -m 775 logging # required for logging in server
 }
 
 stop() {
