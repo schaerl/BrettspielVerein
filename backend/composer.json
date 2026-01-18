@@ -6,9 +6,9 @@
     "vendor-dir": "./vendor"
   },
   "require": {
-    "vlucas/phpdotenv": "^5.5",
-    "phpmailer/phpmailer": "^6.8",
-    "aura/sql": "^5.0",
+    "vlucas/phpdotenv": "^5.6",
+    "phpmailer/phpmailer": "^7.0",
+    "aura/sql": "^6.0",
     "aura/sqlquery": "^3.0",
     "monolog/monolog": "^3.10"
   },

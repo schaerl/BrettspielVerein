@@ -30,6 +30,10 @@ buildBackendForDev() {
     docker run --rm \
         --volume ./backend:/app \
         --user $(id -u):$(id -g) \
+        $COMPOSER_DOCKER_IMAGE update
+    docker run --rm \
+        --volume ./backend:/app \
+        --user $(id -u):$(id -g) \
         $COMPOSER_DOCKER_IMAGE install
     docker run --rm \
         --volume ./backend:/app \
