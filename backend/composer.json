@@ -16,6 +16,8 @@
     "psr-4": {"BVZ\\" : "./api"}
   },
   "require-dev": {
-    "phpunit/phpunit": "^12.5"
+    "phpunit/phpunit": "^12.5",
+    "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-phpunit": "^2.0"
   }
 }

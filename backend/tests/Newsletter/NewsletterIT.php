@@ -20,14 +20,14 @@ class NewsletterIT extends TestCase
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
 
-        $mockMailer = $this->createMock(MailConfigurator::class, new LoggerFactory(true));
+        $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->once())->method('configureMail')
             ->with('Newsletter-Abo von unit@test.com', 'Ich melde mich hiermit an :)', 'unit@test.com')
             ->willReturn($mockMail);
 
 
         $parser = new NewsletterParser();
-        $service = new NewsletterService($mockMailer);
+        $service = new NewsletterService($mockMailer, new LoggerFactory(true));
 
         $controller = new NewsletterController($parser, $service);
 
@@ -43,7 +43,7 @@ class NewsletterIT extends TestCase
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
 
-        $mockMailer = $this->createMock(MailConfigurator::class, new LoggerFactory(true));
+        $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->once())->method('configureMail')
             ->with('Newsletter-Abo von unit@test.com', 'Ich melde mich hiermit an :)', 'unit@test.com')
             ->willReturn($mockMail);
@@ -64,12 +64,12 @@ class NewsletterIT extends TestCase
     {
         $body = json_decode('{"notemail": "unit@test.com"}');
 
-        $mockMailer = $this->createMock(MailConfigurator::class, new LoggerFactory(true));
+        $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
 
 
         $parser = new NewsletterParser();
-        $service = new NewsletterService($mockMailer);
+        $service = new NewsletterService($mockMailer, new LoggerFactory(true));
 
         $controller = new NewsletterController($parser, $service);
 

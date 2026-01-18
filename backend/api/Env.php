@@ -47,7 +47,7 @@ class Env
 
     static function getLogPath()
     {
-        $path = ENV::get(ENV::LOG_FILE_PATH);
+        $path = Env::get(Env::LOG_FILE_PATH);
         if (str_starts_with($path, "/"))
         {
             return $path;
