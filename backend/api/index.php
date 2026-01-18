@@ -11,7 +11,7 @@ use BVZ\Request\RequestFactory;
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-$logger = LoggerFactory::getLogger('index.php');
+$logger = (new LoggerFactory())->getLogger('index.php');
 
 // Makes errors not output an error text, but instead return 500 when set to false
 ini_set('display_errors', Env::isDevEnv());

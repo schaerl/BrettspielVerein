@@ -1,8 +1,5 @@
-FROM liquibase/liquibase:4.33
-RUN lpm add mysql --global
-
-# For liuqibase to be able to write to the mounted folders, the user needs the correct priviliges
-ARG USER_ID
-USER root
-RUN usermod -u ${USER_ID} liquibase
-USER liquibase
+FROM liquibase/liquibase:5.0.1
+RUN liquibase lpm add mysql --global
+# Remove the convoluted entrypoint script, its directory changing behaviour 
+# conflicts with the old workflow
+ENTRYPOINT ["/liquibase/liquibase"]

@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  frontend-tests:
+  build-frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +39,43 @@ jobs:
           ./vue/.nuxt
         key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
 
+
+  frontend-tests:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Retrieve build cache
+      uses: actions/cache/restore@v4
+      id: get-cache
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
+
     - name: Run test suite
       run: npm test
       working-directory: ./vue
 
+  lint:
+    needs: build-frontend
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Retrieve build cache
+      uses: actions/cache/restore@v4
+      id: get-cache
+      with:
+        path: |
+          ./vue/node_modules
+          ./vue/.nuxt
+        key: node_modules-${{ hashFiles('./vue/package-lock.json')}}
+
+    - name: Run linter
+      run: npm run lint
+      working-directory: ./vue

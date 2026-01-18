@@ -52,10 +52,10 @@ class NewsletterControllerTest extends TestCase
         $mockService = $this->createMock(NewsletterService::class);
         $mockService->expects($this->once())
                     ->method('subscribe')
-                    ->will($this->returnCallback(function(NewsletterDTO $dto){
+                    ->willReturnCallback(function(NewsletterDTO $dto)
+                    {
                         $this->assertEquals('unit@test.com', $dto->email);
-                    })
-        );
+                    });
 
         $controller = new NewsletterController($mockParser, $mockService);
 

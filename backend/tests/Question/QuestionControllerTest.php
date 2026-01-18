@@ -50,12 +50,12 @@ class QuestionControllerTest extends TestCase
         $mockService = $this->createMock(QuestionService::class);
         $mockService->expects($this->once())
                     ->method('ask')
-                    ->will($this->returnCallback(function(QuestionDTO $dto){
+                    ->willReturnCallback(function(QuestionDTO $dto)
+                    {
                         $this->assertEquals('unit@test.com', $dto->email);
                         $this->assertEquals('Unit Test', $dto->fullName);
                         $this->assertEquals('Hello there!', $dto->message);
-                    })
-        );
+                    });
 
         $controller = new QuestionController($mockParser, $mockService);
 
