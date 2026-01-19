@@ -3,4 +3,5 @@ source -e "date +'rm -rf backup/test/%Y%m%d/'"
 source -e "date +'mkdir -fp backup/test/%Y%m%d/'"
 source -e "date +'mmv public_html_old/* backup/test/%Y%m%d/'"
 source -e "date +'mmv public_html_old/.env* backup/test/%Y%m%d/'"
+source -e "date +'mmv public_html_old/.htaccess* backup/test/%Y%m%d/'"
 
