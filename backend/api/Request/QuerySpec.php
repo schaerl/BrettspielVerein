@@ -2,14 +2,12 @@
 
 namespace BVZ\Request;
 
-use stdClass;
-
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class QuerySpec
 {
 
-    private array $specs = array();
+    public array $specs = array();
 
     public function withString($name, $required = false): QuerySpec
     {
@@ -25,34 +23,6 @@ class QuerySpec
     {
         array_push($this->specs, new BoolParamSpec($name, $required));
         return $this;
-    }
-
-    public function parse(Request $request): object | array
-    {
-        $errors = array();
-        $result = new stdClass();
-        $params = $request->params;
-
-        foreach($this->specs as $spec)
-        {
-            $validationResult = $spec->validate($params);
-            if (array_key_exists("err", $validationResult))
-            {
-                array_push($errors, $validationResult["err"]);
-            }
-            else
-            {
-                $result->{$spec->name} = $validationResult["val"];
-            }
-        }
-
-        if (!empty($errors))
-        {
-            return $errors;
-        } else 
-        {
-            return $result;
-        }
     }
 }
 
