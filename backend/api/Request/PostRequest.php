@@ -8,10 +8,11 @@ class PostRequest extends Request
 {
     public function __construct(
         string $url,
+        array $params,
         public readonly object $body
     )
     {
-        parent::__construct($url);
+        parent::__construct($url, $params);
     }
 
     function trigger(RequestHandler $handler)

@@ -12,6 +12,12 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class RequestFactoryTest extends TestCase
 {
 
+    protected function setUp(): void
+    {
+        $_SERVER['REQUEST_URI'] = "";
+        $_SERVER['REQUEST_METHOD'] = '';
+    }
+
     public function testGetRequestCreatedSuccessfully()
     {
         $_SERVER['REQUEST_URI'] = "/api/unit/test";
@@ -19,6 +25,22 @@ class RequestFactoryTest extends TestCase
         $request = (new RequestFactory())->getRequest();
 
         $this->assertInstanceOf(GetRequest::class, $request);
+        $this->assertEquals('/api/unit/test', $request->url);
+    }
+
+    public function testGetRequestParametersAreParsedSuccessfully()
+    {
+        $_SERVER['REQUEST_URI'] = "/api/unit/test?param1=hello&param2=world&param3=Data123%21%40-_+%2B&valueless";
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $request = (new RequestFactory())->getRequest();
+
+        $this->assertInstanceOf(GetRequest::class, $request);
+        $this->assertEquals('hello', $request->params['param1']);
+        $this->assertEquals('world', $request->params['param2']);
+        $this->assertEquals('Data123!@-_ +', $request->params['param3']);
+        $this->assertArrayHasKey('valueless', $request->params);
+        $this->assertNull($request->params['valueless']);
     }
 
     public static function invalidBodyProvider() : array {

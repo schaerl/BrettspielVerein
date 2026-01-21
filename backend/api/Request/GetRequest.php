@@ -7,10 +7,11 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class GetRequest extends Request
 {
     public function __construct(
-        string $url
+        string $url,
+        array $params
     )
     {
-        parent::__construct($url);
+        parent::__construct($url, $params);
     }
 
     function trigger(RequestHandler $handler)
