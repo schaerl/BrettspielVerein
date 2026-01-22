@@ -43,7 +43,7 @@ class QuerySpecParserTest extends TestCase
         $this->assertEquals(1, $result->req2);
         $this->assertFalse($result->req3);
     }
-    
+
     public function testRequestWithOptionalFieldsParsedWhenDataAvailable()
     {
         $request = new GetRequest("", array());
