@@ -27,6 +27,23 @@ class QuerySpecParserTest extends TestCase
         $this->assertFalse($result->req3);
     }
 
+    public function testRequestWithDefaultValueParamsParsedWhenDataMissing()
+    {
+        $request = new GetRequest("");
+        $spec = new QuerySpec()
+            ->withString("req1", default: "dummy")
+            ->withNumber("req2", default: 1)
+            ->withBool("req3", default: false);
+
+        $result = (new QuerySpecParser())
+            ->parse($spec, $request);
+
+        $this->assertIsObject($result);
+        $this->assertEquals("dummy", $result->req1);
+        $this->assertEquals(1, $result->req2);
+        $this->assertFalse($result->req3);
+    }
+    
     public function testRequestWithOptionalFieldsParsedWhenDataAvailable()
     {
         $request = new GetRequest("", array());
