@@ -8,7 +8,7 @@ class GetRequest extends Request
 {
     public function __construct(
         string $url,
-        array $params
+        array $params = array()
     )
     {
         parent::__construct($url, $params);

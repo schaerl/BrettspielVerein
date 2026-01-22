@@ -11,9 +11,9 @@ class EventService
     )
     {}
 
-    public function getNextThreeEvents()
+    public function getEvents(int $page, int $pageSize)
     {
-        $nextEvents = $this->repository->getNextThreeEvents();
+        $nextEvents = $this->repository->getEvents($page, $pageSize);
         header('Content-Type: application/json');
         echo(json_encode($nextEvents));
     }

@@ -1,5 +1,6 @@
 <?php
 
+use BVZ\Request\QuerySpecParser;
 use BVZ\Request\Request;
 use BVZ\Request\RequestHandler;
 use PHPUnit\Framework\TestCase;
@@ -9,7 +10,11 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 class RequestHandlerTest extends TestCase
 {
     public function testHandleTriggersRequest() {
-        $handler = new class extends RequestHandler {
+        $handler = new class ($this->createStub(QuerySpecParser::class)) extends RequestHandler {
+            public function __construct(QuerySpecParser $querySpecParser)
+            {
+                return parent::__construct($querySpecParser);
+            }
             function handleGet($dummy){}
             function handlePost($dummy){}
         };

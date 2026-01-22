@@ -6,7 +6,6 @@ use BVZ\Member\MemberController;
 use BVZ\Member\MemberParser;
 use BVZ\Member\MemberService;
 use BVZ\Request\PostRequest;
-use BVZ\Request\RequestHandler;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 
@@ -42,7 +41,7 @@ class MemberIT extends TestCase
 
         $controller = new MemberController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(204, http_response_code());
     }
@@ -75,7 +74,7 @@ class MemberIT extends TestCase
 
         $controller = new MemberController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process member signup!", xdebug_get_headers());
@@ -94,7 +93,7 @@ class MemberIT extends TestCase
 
         $controller = new MemberController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: firstName not found or empty!", xdebug_get_headers());

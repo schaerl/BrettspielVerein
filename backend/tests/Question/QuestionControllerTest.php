@@ -35,7 +35,7 @@ class QuestionControllerTest extends TestCase
 
         $controller = new QuestionController($mockParser, $mockService);
 
-        $controller->handle(new PostRequest("dummy", new stdClass()));
+        $controller->handle(new PostRequest("dummy"));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains('X-Error-State: Unit Test', xdebug_get_headers());
@@ -59,6 +59,6 @@ class QuestionControllerTest extends TestCase
 
         $controller = new QuestionController($mockParser, $mockService);
 
-        $controller->handle(new PostRequest("dummy", new stdClass()));
+        $controller->handle(new PostRequest("dummy"));
     }
 }

@@ -4,6 +4,7 @@ namespace BVZ\Newsletter;
 
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
+use BVZ\Request\QuerySpecParser;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -11,9 +12,12 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class NewsletterController extends RequestHandler {
 
     function __construct(private NewsletterParser $parser = new NewsletterParser(),
-        private NewsletterService $service = new NewsletterService()
+        private NewsletterService $service = new NewsletterService(),
+        QuerySpecParser $querySpecParser = new QuerySpecParser()
     )
-    {}
+    {
+        parent::__construct($querySpecParser);
+    }
 
     function handleGet(GetRequest $get)
     {

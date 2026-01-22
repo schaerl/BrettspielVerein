@@ -4,6 +4,7 @@ namespace BVZ\Question;
 
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
+use BVZ\Request\QuerySpecParser;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -11,9 +12,12 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class QuestionController extends RequestHandler {
 
     function __construct(private QuestionParser $parser = new QuestionParser(),
-        private QuestionService $service = new QuestionService()
+        private QuestionService $service = new QuestionService(),
+        QuerySpecParser $querySpecParser = new QuerySpecParser()
     )
-    {}
+    {
+        parent::__construct($querySpecParser);
+    }
 
     function handleGet(GetRequest $get)
     {

@@ -31,7 +31,7 @@ class NewsletterIT extends TestCase
 
         $controller = new NewsletterController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(204, http_response_code());
     }
@@ -54,7 +54,7 @@ class NewsletterIT extends TestCase
 
         $controller = new NewsletterController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process registration request!", xdebug_get_headers());
@@ -73,7 +73,7 @@ class NewsletterIT extends TestCase
 
         $controller = new NewsletterController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: Email address not found!", xdebug_get_headers());

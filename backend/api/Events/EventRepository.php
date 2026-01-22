@@ -9,7 +9,7 @@ use BVZ\Env;
 
 class EventRepository
 {
-    public function getNextThreeEvents()
+    public function getEvents(int $page, int $pageSize)
     {
         $queryBuilder = new QueryFactory('mysql', QueryFactory::COMMON);
         $select = $queryBuilder->newSelect()
@@ -19,7 +19,8 @@ class EventRepository
             ->where('e.date >= :current_date')
             ->orderBy(['e.date ASC'])
             ->bindValue('current_date', date('Y-m-d'))
-            ->limit(3);
+            ->setPaging($pageSize)
+            ->page($page);
 
         return $this->getConnection()->fetchObjects($select->getStatement(), $select->getBindValues(), Event::class);
     }

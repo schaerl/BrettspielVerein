@@ -20,6 +20,6 @@ class RequestTest extends TestCase
         $mockHandler = $this->createMock(RequestHandler::class);
         $mockHandler->expects($this->once())->method('handlePost');
 
-        (new PostRequest("dummy", new stdClass()))->trigger($mockHandler);
+        (new PostRequest("dummy"))->trigger($mockHandler);
     }
 }

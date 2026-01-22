@@ -31,7 +31,7 @@ class QuestionIT extends TestCase
 
         $controller = new QuestionController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(204, http_response_code());
     }
@@ -53,7 +53,7 @@ class QuestionIT extends TestCase
 
         $controller = new QuestionController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains("X-Error-State: Could not process question!", xdebug_get_headers());
@@ -71,7 +71,7 @@ class QuestionIT extends TestCase
 
         $controller = new QuestionController($parser, $service);
 
-        $controller->handle(new PostRequest("dummy", $body));
+        $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: message not found or empty!", xdebug_get_headers());
