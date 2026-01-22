@@ -11,6 +11,10 @@ class EventRepository
 {
     public function getEvents(int $page, int $pageSize)
     {
+        if ($page < 1)
+        {
+            $page = 1;
+        }
         $queryBuilder = new QueryFactory('mysql', QueryFactory::COMMON);
         $select = $queryBuilder->newSelect()
             ->cols(['e.id', 'e.date', 'e.start_time', 'e.location', 'et.name', 'et.price'])
@@ -19,8 +23,8 @@ class EventRepository
             ->where('e.date >= :current_date')
             ->orderBy(['e.date ASC'])
             ->bindValue('current_date', date('Y-m-d'))
-            ->setPaging($pageSize)
-            ->page($page);
+            ->page($page)
+            ->setPaging($pageSize);
 
         return $this->getConnection()->fetchObjects($select->getStatement(), $select->getBindValues(), Event::class);
     }

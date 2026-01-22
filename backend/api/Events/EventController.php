@@ -26,7 +26,7 @@ class EventController extends RequestHandler {
         // checks for what to call.
         $params = $this->parseRequest(
             (new QuerySpec())
-                ->withNumber('page', default: 0)
+                ->withNumber('page', default: 1)
                 ->withNumber('pageSize', default: 3),
             $get);
         $this->getEvents($params->page, $params->pageSize);
