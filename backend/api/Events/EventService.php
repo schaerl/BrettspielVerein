@@ -13,7 +13,10 @@ class EventService
 
     public function getEvents(int $page, int $pageSize)
     {
-        $nextEvents = $this->repository->getEvents($page, $pageSize);
+        $nextEvents = $this->repository->getFutureEvents($page, $pageSize);
+        $count = $this->repository->getFutureEventsCount();
+        header("X-Total-Count: $count");
+
         header('Content-Type: application/json');
         echo(json_encode($nextEvents));
     }

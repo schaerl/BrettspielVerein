@@ -4,10 +4,10 @@ namespace BVZ\Events;
 
 class Event
 {
-    public $id;
-    public $date;
-    public $start_time;
-    public $name;
-    public $location;
-    public $price;
+    public int $id;
+    public string $date;
+    public string $start_time;
+    public string $name;
+    public string $location;
+    public int $price;
 }
