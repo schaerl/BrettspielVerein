@@ -1,8 +1,13 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, type Mock } from "vitest";
 import { mockNuxtImport } from "@nuxt/test-utils/runtime";
 
+type ApiMock = Mock<(_: string, __: object) => Promise<string>>;
+type OFetchMock = ApiMock & { raw: ApiMock };
+
 const { useNuxtAppMock, mockApi } = vi.hoisted(() => {
-  const mockApi = vi.fn((_: string, __ = {}) => Promise.resolve());
+  const mockApi = vi.fn((_: string, __ = {}) => Promise.resolve("Direct")) as OFetchMock;
+  const raw = vi.fn((_: string, __ = {}) => Promise.resolve("Raw"));
+  mockApi.raw = raw;
   return {
     useNuxtAppMock: vi.fn((_) => {
       return {
@@ -19,26 +24,29 @@ mockNuxtImport("useNuxtApp", () => {
 
 describe("usePhpBackend", () => {
   describe("get", () => {
-    it("calls api directly with provided url", () => {
+    it("calls api directly with provided url", async () => {
       const { get } = usePhpBackend("dummy.php");
-      get();
+      const result = await get();
 
+      expect(result).toBe("Direct");
       expect(mockApi).toBeCalledWith("dummy.php");
     });
   });
 
   describe("get", () => {
-    it("calls api with get", () => {
+    it("calls api with get", async () => {
       const { get } = usePhpBackend("dummy.php");
-      get();
+      const result = await get();
 
+      expect(result).toBe("Direct");
       expect(mockApi).toBeCalledWith("dummy.php");
     });
 
-    it("calls api with get, and query params if passed", () => {
+    it("calls api with get, and query params if passed", async () => {
       const { get } = usePhpBackend("dummy.php");
-      get({ hello: "world", num: 1, bool: false });
+      const result = await get({ hello: "world", num: 1, bool: false });
 
+      expect(result).toBe("Direct");
       expect(mockApi).toBeCalledWith("dummy.php", {
         query: {
           bool: false,
@@ -49,23 +57,49 @@ describe("usePhpBackend", () => {
     });
   });
 
+  describe("getRaw", () => {
+    it("calls api.raw", async () => {
+      const { getRaw } = usePhpBackend("dummy.php");
+      const result = await getRaw();
+
+      expect(result).toBe("Raw");
+      expect(mockApi.raw).toBeCalledWith("dummy.php");
+    });
+
+    it("calls api.raw with query params if passed", async () => {
+      const { getRaw } = usePhpBackend("dummy.php");
+      const result = await getRaw({ hello: "world", num: 1, bool: false });
+
+      expect(result).toBe("Raw");
+      expect(mockApi.raw).toBeCalledWith("dummy.php", {
+        query: {
+          bool: false,
+          hello: "world",
+          num: 1,
+        },
+      });
+    });
+  });
+
   describe("post", () => {
-    it("calls api at provided url, with provided body, as a POST", () => {
+    it("calls api at provided url, with provided body, as a POST", async () => {
       const { post } = usePhpBackend("dummy.php");
       const body = { a: "Unit", b: 4 };
-      post(body);
+      const result = await post(body);
 
+      expect(result).toBe("Direct");
       expect(mockApi).toBeCalledWith("dummy.php", {
         body,
         method: "POST",
       });
     });
 
-    it("trims all strings", () => {
+    it("trims all strings", async () => {
       const { post } = usePhpBackend("dummy.php");
       const body = { a: "    Unit   test  ", b: 4, c: "Another test     ", d: "   " };
-      post(body);
+      const result = await post(body);
 
+      expect(result).toBe("Direct");
       const expectedBody = { a: "Unit   test", b: 4, c: "Another test", d: "" };
       expect(mockApi).toBeCalledWith("dummy.php", {
         body: expectedBody,

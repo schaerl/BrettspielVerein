@@ -1,3 +1,5 @@
+import type { FetchResponse } from "ofetch";
+
 export default function<TYPE> (url: string) {
   const { $api } = useNuxtApp();
 
@@ -15,9 +17,20 @@ export default function<TYPE> (url: string) {
   return {
     get: (query?: Record<string, string | boolean | number>) => {
       if (query) {
-        $api(url, { query });
+        return $api(url, { query });
       }
-      return $api(url) as Promise<TYPE[]>;
+      else {
+        return $api(url) as Promise<TYPE[]>;
+      }
+    },
+
+    getRaw: (query?: Record<string, string | boolean | number>) => {
+      if (query) {
+        return $api.raw(url, { query }) as Promise<FetchResponse<TYPE>>;
+      }
+      else {
+        return $api.raw(url) as Promise<FetchResponse<TYPE>>;
+      }
     },
 
     post: (body: TYPE) => {
