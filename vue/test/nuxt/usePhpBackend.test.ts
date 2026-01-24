@@ -27,6 +27,28 @@ describe("usePhpBackend", () => {
     });
   });
 
+  describe("get", () => {
+    it("calls api with get", () => {
+      const { get } = usePhpBackend("dummy.php");
+      get();
+
+      expect(mockApi).toBeCalledWith("dummy.php");
+    });
+
+    it("calls api with get, and query params if passed", () => {
+      const { get } = usePhpBackend("dummy.php");
+      get({ hello: "world", num: 1, bool: false });
+
+      expect(mockApi).toBeCalledWith("dummy.php", {
+        query: {
+          bool: false,
+          hello: "world",
+          num: 1,
+        },
+      });
+    });
+  });
+
   describe("post", () => {
     it("calls api at provided url, with provided body, as a POST", () => {
       const { post } = usePhpBackend("dummy.php");

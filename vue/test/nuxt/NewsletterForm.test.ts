@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterAll } from "vitest";
 import { flushPromises } from "@vue/test-utils";
 import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { NewsletterForm } from "#components";
@@ -19,6 +19,11 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("NewsletterForm", () => {
+  const consoleMock = vi.spyOn(console, "error").mockImplementation(() => undefined);
+  afterAll(() => {
+    consoleMock.mockReset();
+  });
+
   it("uses phpBackend with 'newsletter'", async () => {
     await mountSuspended(NewsletterForm);
 
@@ -83,5 +88,7 @@ describe("NewsletterForm", () => {
       message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
       type: "warning",
     });
+
+    expect(consoleMock).toHaveBeenCalledWith("Didn't work");
   });
 });

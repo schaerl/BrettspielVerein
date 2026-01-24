@@ -13,8 +13,8 @@ export default function () {
 
   return {
     repository: {
-      async getEventData(): Promise<EventData[]> {
-        const promise: Promise<EventData[]> = get() as Promise<EventData[]>;
+      async getEventData(query?: Record<string, string | boolean | number>): Promise<EventData[]> {
+        const promise: Promise<EventData[]> = get(query) as Promise<EventData[]>;
         return promise.then((data) => {
           data.forEach(item => shortenDateAndTime(item));
           return data;

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterAll } from "vitest";
 import { flushPromises } from "@vue/test-utils";
 import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { QuestionForm } from "#components";
@@ -19,6 +19,11 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("QuestionForm", () => {
+  const consoleMock = vi.spyOn(console, "error").mockImplementation(() => undefined);
+  afterAll(() => {
+    consoleMock.mockReset();
+  });
+
   it("uses phpBackend with 'question'", async () => {
     await mountSuspended(QuestionForm);
 
@@ -134,5 +139,7 @@ describe("QuestionForm", () => {
       message: "Frage konnte nicht geschickt werden. Bitte versuche es später erneut",
       type: "warning",
     });
+
+    expect(consoleMock).toHaveBeenCalledWith("Didn't work");
   });
 });
