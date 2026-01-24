@@ -1,6 +1,13 @@
 import type { FetchResponse } from "ofetch";
 
-export default function<TYPE> (url: string) {
+export type BvzQuery = Record<string, string | boolean | number>;
+export interface API<TYPE> {
+  get(query?: BvzQuery): Promise<TYPE[]>;
+  getRaw(query?: BvzQuery): Promise<FetchResponse<TYPE[]>>;
+  post(body: TYPE): Promise<void>;
+}
+
+export default function<TYPE> (url: string): API<TYPE> {
   const { $api } = useNuxtApp();
 
   function trimStrings(body: TYPE) {
@@ -15,7 +22,7 @@ export default function<TYPE> (url: string) {
   };
 
   return {
-    get: (query?: Record<string, string | boolean | number>) => {
+    get: (query?: BvzQuery) => {
       if (query) {
         return $api(url, { query });
       }
@@ -24,12 +31,12 @@ export default function<TYPE> (url: string) {
       }
     },
 
-    getRaw: (query?: Record<string, string | boolean | number>) => {
+    getRaw: (query?: BvzQuery) => {
       if (query) {
-        return $api.raw(url, { query }) as Promise<FetchResponse<TYPE>>;
+        return $api.raw(url, { query }) as Promise<FetchResponse<TYPE[]>>;
       }
       else {
-        return $api.raw(url) as Promise<FetchResponse<TYPE>>;
+        return $api.raw(url) as Promise<FetchResponse<TYPE[]>>;
       }
     },
 
