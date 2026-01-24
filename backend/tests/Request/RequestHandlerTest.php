@@ -13,7 +13,7 @@ class RequestHandlerTest extends TestCase
         $handler = new class ($this->createStub(QuerySpecParser::class)) extends RequestHandler {
             public function __construct(QuerySpecParser $querySpecParser)
             {
-                return parent::__construct($querySpecParser);
+                parent::__construct($querySpecParser);
             }
             function handleGet($dummy){}
             function handlePost($dummy){}

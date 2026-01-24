@@ -212,7 +212,7 @@ lint() {
     container_name=php_lint
     echo "Running backend linting"
     docker container rm $container_name &> /dev/null
-    docker run --name $container_name --user $(id -u):$(id -g) -v ./backend/:/app $SERVER_DOCKER_IMAGE /app/vendor/bin/phpstan analyse /app/api/ /app/tests
+    docker run --name $container_name --user $(id -u):$(id -g) -v ./backend/:/app $SERVER_DOCKER_IMAGE /app/vendor/bin/phpstan --memory-limit=512M analyse /app/api/ /app/tests/
     backend_exit_code=$(docker wait $container_name)
 
     echo "Running frontend tests"
