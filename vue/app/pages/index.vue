@@ -88,6 +88,13 @@ onMounted(() => {
               :data="eventData"
               class="bg-white rounded-xl"
             />
+            <UButton
+              class="w-fit rounded-full self-end"
+              size="xl"
+              to="/events"
+            >
+              Alle Events
+            </UButton>
           </BVZSheet>
         </Section>
       </NavScrollWrapper>

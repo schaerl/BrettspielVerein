@@ -19,7 +19,7 @@ async function updatePage(newPage: number) {
 
 <template>
   <UContainer>
-    <Section title="Events">
+    <Section title="Alle kommenden Events">
       <BVZSheet
         class="bg-secondary rounded-xl flex flex-col gap-4"
       >
