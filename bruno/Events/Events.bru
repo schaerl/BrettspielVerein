@@ -1,0 +1,21 @@
+meta {
+  name: Events
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/api/events?page=1&pageSize=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  page: 1
+  pageSize: 10
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

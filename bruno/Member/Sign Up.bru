@@ -1,0 +1,27 @@
+meta {
+  name: Sign Up
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/api/member
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "bruno@test.com",
+    "firstName": "Bruno",
+    "lastName": "API",
+    "address1": "Brunostreet 2",
+    "address2": "1234 Brunotown",
+    "message": "This question comes straight from the Bruno API client :)"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
