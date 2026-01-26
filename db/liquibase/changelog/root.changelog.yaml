@@ -11,3 +11,6 @@ databaseChangeLog:
   - include:
       file: event/baseline-2026.changelog.yaml
       relativeToChangelogFile: true
+  - include:
+      file: subscriber/subscriber.changelog.yaml
+      relativeToChangelogFile: true

@@ -1,0 +1,26 @@
+databaseChangeLog:
+- changeSet:
+    id: "subscriber-0"
+    author: schaerl
+    comment: Table for subscribers
+    changes:
+    - createTable:
+        tableName: subscriber
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+                nullable: false
+                primaryKey: true
+            name: id
+            type: INT
+        - column:
+            constraints:
+                nullable: false
+                unique: true
+            name: email
+            type: VARCHAR(128)
+        - column:
+            name: removal_key
+            type: VARCHAR(128)
+
