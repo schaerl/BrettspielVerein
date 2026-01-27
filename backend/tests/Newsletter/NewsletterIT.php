@@ -1,9 +1,11 @@
 <?php
 
+use BVZ\BvzRepositoryException;
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Newsletter\NewsletterController;
 use BVZ\Newsletter\NewsletterParser;
+use BVZ\Newsletter\NewsletterRepository;
 use BVZ\Newsletter\NewsletterService;
 use BVZ\Request\PostRequest;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -25,9 +27,11 @@ class NewsletterIT extends TestCase
             ->with('Newsletter-Abo von unit@test.com', 'Ich melde mich hiermit an :)', 'unit@test.com')
             ->willReturn($mockMail);
 
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
 
         $parser = new NewsletterParser();
-        $service = new NewsletterService($mockMailer, new LoggerFactory(true));
+        $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
         $controller = new NewsletterController($parser, $service);
 
@@ -36,7 +40,7 @@ class NewsletterIT extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testReturnsWith500WhenMailingFails()
+    public function testStillSucceedsWith204WhenMailingFails()
     {
         $body = json_decode('{"email": "unit@test.com"}');
 
@@ -48,16 +52,69 @@ class NewsletterIT extends TestCase
             ->with('Newsletter-Abo von unit@test.com', 'Ich melde mich hiermit an :)', 'unit@test.com')
             ->willReturn($mockMail);
 
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
+
 
         $parser = new NewsletterParser();
-        $service = new NewsletterService($mockMailer, new LoggerFactory(true));
+        $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
+
+        $controller = new NewsletterController($parser, $service);
+
+        $controller->handle(new PostRequest("dummy", body: $body));
+
+        $this->assertEquals(204, http_response_code());
+    }
+
+    public function testFailsWith500WhenDbSignupFails()
+    {
+        $body = json_decode('{"email": "unit@test.com"}');
+
+        $mockMail = $this->createStub(PHPMailer::class);
+        $mockMail->method('send')->willReturn(false);
+
+        $mockMailer = $this->createMock(MailConfigurator::class);
+        $mockMailer->expects($this->never())->method('configureMail');
+
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('signUp')
+            ->willThrowException(new BvzRepositoryException("Dummy"));
+
+
+        $parser = new NewsletterParser();
+        $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
         $controller = new NewsletterController($parser, $service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
         $this->assertEquals(500, http_response_code());
-        $this->assertContains("X-Error-State: Could not process registration request!", xdebug_get_headers());
+        $this->assertContains('X-Error-State: Could not process signup request!', xdebug_get_headers());
+    }
+
+    public function testFailsWith409WhenEmailAlreadyExists()
+    {
+        $body = json_decode('{"email": "unit@test.com"}');
+
+        $mockMail = $this->createStub(PHPMailer::class);
+        $mockMail->method('send')->willReturn(false);
+
+        $mockMailer = $this->createMock(MailConfigurator::class);
+        $mockMailer->expects($this->never())->method('configureMail');
+
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('signUp')
+            ->willReturn(false);
+
+
+        $parser = new NewsletterParser();
+        $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
+
+        $controller = new NewsletterController($parser, $service);
+
+        $controller->handle(new PostRequest("dummy", body: $body));
+
+        $this->assertEquals(409, http_response_code());
     }
 
     public function testFailsWhenMissingData()
@@ -67,9 +124,12 @@ class NewsletterIT extends TestCase
         $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
 
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->never())->method('signUp');
+
 
         $parser = new NewsletterParser();
-        $service = new NewsletterService($mockMailer, new LoggerFactory(true));
+        $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
         $controller = new NewsletterController($parser, $service);
 

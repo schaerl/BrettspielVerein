@@ -2,9 +2,11 @@
 
 namespace BVZ\Newsletter;
 
+use BVZ\BvzRepositoryException;
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use Monolog\Logger;
+use Ramsey\Uuid\Uuid;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -13,6 +15,7 @@ class NewsletterService
     private readonly Logger $logger;
 
     function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator(),
+        private readonly NewsletterRepository $repository = new NewsletterRepository(),
         private readonly LoggerFactory $loggerFactory = new LoggerFactory()
     )
     {
@@ -21,6 +24,22 @@ class NewsletterService
 
     public function subscribe(NewsletterDTO $dto)
     {
+        try
+        {
+            $success = $this->repository->signUp($dto->email, Uuid::uuid4()->toString());
+            if (!$success){
+                header("X-Error-State: Email already registered");
+                http_response_code(409);
+                return;
+            }
+        }
+        catch (BvzRepositoryException)
+        {
+            header("X-Error-State: Could not process signup request!");
+            http_response_code(500);
+            return;
+        }
+
         $transformArray = array("{mail}" => $dto->email);
         $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
         $message = "Ich melde mich hiermit an :)";
@@ -29,10 +48,7 @@ class NewsletterService
         $success = $mail->send();
         if (!$success) {
             $this->logger->error("Message could not be sent. Mailer Error: " . $mail->ErrorInfo);
-            header("X-Error-State: Could not process registration request!");
-            http_response_code(500);
-        } else {
-            http_response_code(204);
         }
+        http_response_code(204);
     }
 }

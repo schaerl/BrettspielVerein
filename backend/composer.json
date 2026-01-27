@@ -10,7 +10,8 @@
     "phpmailer/phpmailer": "^7.0",
     "aura/sql": "^6.0",
     "aura/sqlquery": "^3.0",
-    "monolog/monolog": "^3.10"
+    "monolog/monolog": "^3.10",
+    "ramsey/uuid": "^4.9"
   },
   "autoload": {
     "psr-4": {"BVZ\\" : "./api"}
