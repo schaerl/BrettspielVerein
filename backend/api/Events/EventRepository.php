@@ -3,11 +3,10 @@
 namespace BVZ\Events;
 
 use BVZ\Events\Event;
-use Aura\Sql\ExtendedPdo;
 use Aura\SqlQuery\QueryFactory;
-use BVZ\Env;
+use BVZ\BvzRepository;
 
-class EventRepository
+class EventRepository extends BvzRepository
 {
     public function getFutureEvents(int $page, int $pageSize)
     {
@@ -15,7 +14,7 @@ class EventRepository
         {
             $page = 1;
         }
-        $queryBuilder = new QueryFactory('mysql', QueryFactory::COMMON);
+        $queryBuilder = $this->getQueryFactory();
         $select = $queryBuilder->newSelect()
             ->cols(['e.id', 'e.date', 'e.start_time', 'e.location', 'et.name', 'et.price'])
             ->from('event AS e')
@@ -40,20 +39,5 @@ class EventRepository
 
         $countObject = $this->getConnection()->fetchObjects($select->getStatement(), $select->getBindValues());
         return $countObject[0]->count;
-    }
-
-    private function getConnection()
-    {
-        $host = Env::get(Env::DB_HOST);
-        $name = Env::get(Env::DB_NAME);
-        $format_string = 'mysql:host={host};dbname={name}';
-        $transformer = array('{host}' => $host, '{name}' => $name);
-        return new ExtendedPdo(
-            strtr($format_string, $transformer),
-            Env::get(Env::DB_USER),
-            Env::get(Env::DB_PW),
-            [], // driver attributes/options as key-value pairs
-            []  // queries to execute after connection
-        );
     }
 }
