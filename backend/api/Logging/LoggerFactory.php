@@ -18,6 +18,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class LoggerFactory
 {
+    private TestHandler $TEST_HANDLER;
     public function __construct(private readonly bool $testing = false)
     {}
 
@@ -31,7 +32,7 @@ class LoggerFactory
         }
         elseif ($this->testing)
         {
-            $log->pushHandler(new TestHandler());
+            $log->pushHandler(self::getOrInitTestHandler());
             return $log;
         }
 
@@ -41,6 +42,27 @@ class LoggerFactory
         $log->pushProcessor($this->getFormattingProcessor());
 
         return $log;
+    }
+
+    private function getOrInitTestHandler(): TestHandler
+    {
+        if (!isset($this->TEST_HANDLER))
+        {
+            $this->TEST_HANDLER = new TestHandler();
+        }
+        return $this->TEST_HANDLER;
+    }
+
+    public function getTestHandler(): TestHandler
+    {
+        if (!isset($this->TEST_HANDLER))
+        {
+            throw new \Exception("No TestHandler was used! Don't do that in production, and if you are in testing, you forgot to set the mode when constructing the factory :)");
+        }
+        else
+        {
+            return $this->TEST_HANDLER;
+        }
     }
 
     private function getLogLevel() : Level
