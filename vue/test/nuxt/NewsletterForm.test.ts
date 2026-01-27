@@ -2,6 +2,8 @@ import { describe, it, expect, vi, afterAll } from "vitest";
 import { flushPromises } from "@vue/test-utils";
 import { mountSuspended, mockNuxtImport } from "@nuxt/test-utils/runtime";
 import { NewsletterForm } from "#components";
+import type { FetchError } from "ofetch";
+import { mockDeep, mockReset, type DeepMockProxy } from "vitest-mock-extended";
 
 const { usePhpBackendMock } = vi.hoisted(() => {
   return {
@@ -19,11 +21,6 @@ mockNuxtImport("usePhpBackend", () => {
 });
 
 describe("NewsletterForm", () => {
-  const consoleMock = vi.spyOn(console, "error").mockImplementation(() => undefined);
-  afterAll(() => {
-    consoleMock.mockReset();
-  });
-
   it("uses phpBackend with 'newsletter'", async () => {
     await mountSuspended(NewsletterForm);
 
@@ -66,29 +63,62 @@ describe("NewsletterForm", () => {
     });
   });
 
-  it("emits a warning when submit resolves to error", async () => {
-    usePhpBackendMock.mockImplementation(() => {
-      return {
-        get: () => [],
-        post: (_: object) => Promise.reject("Didn't work"),
-      };
+  describe("when is not successful", () => {
+    const mockResponse: DeepMockProxy<FetchError> = mockDeep<FetchError>();
+    afterAll(() => {
+      mockReset(mockResponse);
     });
 
-    const wrapper = await mountSuspended(NewsletterForm);
-    const form = wrapper.find("form");
-    const input = wrapper.find("input");
+    it("emits warning with specific message when submit resolves to 409", async () => {
+      mockResponse.statusCode = 409;
+      mockResponse.message = "Didn't work";
+      usePhpBackendMock.mockImplementation(() => {
+        return {
+          get: () => [],
+          post: (_: object) => Promise.reject(mockResponse),
+        };
+      });
 
-    await input.setValue("test@unit-test.com");
-    await form.trigger("submit.prevent");
-    await flushPromises();
+      const wrapper = await mountSuspended(NewsletterForm);
+      const form = wrapper.find("form");
+      const input = wrapper.find("input");
 
-    const emitted = wrapper.emitted("onSubmission");
-    expect(emitted).toHaveLength(1);
-    expect(emitted![0]![0]).toStrictEqual({
-      message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
-      type: "warning",
+      await input.setValue("test@unit-test.com");
+      await form.trigger("submit.prevent");
+      await flushPromises();
+
+      const emitted = wrapper.emitted("onSubmission");
+      expect(emitted).toHaveLength(1);
+      expect(emitted![0]![0]).toStrictEqual({
+        message: "Diese Email ist bereits registriert.",
+        type: "warning",
+      });
     });
 
-    expect(consoleMock).toHaveBeenCalledWith("Didn't work");
+    it("emits warning with generic message otherwise", async () => {
+      mockResponse.statusCode = 500;
+      mockResponse.message = "Didn't work";
+      usePhpBackendMock.mockImplementation(() => {
+        return {
+          get: () => [],
+          post: (_: object) => Promise.reject(mockResponse),
+        };
+      });
+
+      const wrapper = await mountSuspended(NewsletterForm);
+      const form = wrapper.find("form");
+      const input = wrapper.find("input");
+
+      await input.setValue("test@unit-test.com");
+      await form.trigger("submit.prevent");
+      await flushPromises();
+
+      const emitted = wrapper.emitted("onSubmission");
+      expect(emitted).toHaveLength(1);
+      expect(emitted![0]![0]).toStrictEqual({
+        message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
+        type: "warning",
+      });
+    });
   });
 });

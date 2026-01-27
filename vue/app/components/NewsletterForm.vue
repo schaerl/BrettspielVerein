@@ -9,11 +9,11 @@ const state = reactive<Partial<Schema>>({
   email: undefined,
 });
 
-const { post } = usePhpBackend("newsletter");
+const { post } = usePhpBackend<NewsletterType>("newsletter");
 const emit = defineEmits<{ onSubmission: [status: AlertStatus] }>();
 
 function onSubmit() {
-  post({ email: state.email })
+  post({ email: state.email! })
     .then(() => {
       emit("onSubmission", {
         message: "Erfolgreich für den Newsletter registriert",
@@ -21,9 +21,15 @@ function onSubmit() {
       });
     })
     .catch((err) => {
-      console.error(err);
+      let message;
+      if (err.statusCode == 409) {
+        message = "Diese Email ist bereits registriert.";
+      }
+      else {
+        message = "Registrierung fehlgeschlagen. Bitte versuche es später erneut";
+      }
       emit("onSubmission", {
-        message: "Registrierung fehlgeschlagen. Bitte versuche es später erneut",
+        message,
         type: "warning",
       });
     });
