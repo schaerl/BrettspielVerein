@@ -30,22 +30,29 @@ catch (RequestException $e)
     http_response_code(400);
     return;
 }
-
-switch ($request->url)
+try
 {
-    case '/api/newsletter':
-        (new NewsletterController())->handle($request);
-        return;
-    case '/api/question':
-        (new QuestionController())->handle($request);
-        return;
-    case '/api/member':
-        (new MemberController())->handle($request);
-        return;
-    case '/api/events':
-        (new EventController())->handle($request);
-        return;
-    default:
-        http_response_code(404);
-        return;
+    switch ($request->url)
+    {
+        case '/api/newsletter':
+            (new NewsletterController())->handle($request);
+            return;
+        case '/api/question':
+            (new QuestionController())->handle($request);
+            return;
+        case '/api/member':
+            (new MemberController())->handle($request);
+            return;
+        case '/api/events':
+            (new EventController())->handle($request);
+            return;
+        default:
+            http_response_code(404);
+            return;
+    }
+}
+catch (\Exception $e)
+{
+    $logger->error($e->getMessage());
+    $logger->error($e->getTraceAsString());
 }
