@@ -8,6 +8,7 @@ use BVZ\Newsletter\NewsletterRepository;
 use PHPUnit\Framework\TestCase;
 
 use BVZ\Newsletter\NewsletterService;
+use BVZ\Newsletter\UnsubscribeStatus;
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -55,7 +56,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertContains('X-Error-State: Could not process signup request!', xdebug_get_headers());
     }
     
-    public function testReturns204EverythingWorks() 
+    public function testReturns204SignupWorks() 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -91,5 +92,41 @@ class NewsletterServiceTest extends TestCase
         $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
         $service->subscribe(NewsletterDTO::create("unit@test.com"));
         $this->assertEquals(204, http_response_code());
+    }
+
+    public function testReturns204WhenEmailDeleted()
+    {
+        $mailConfigurator = $this->createStub(MailConfigurator::class);
+
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('unsubscribe')->willReturn(UnsubscribeStatus::SUCCESSFULLY_DELETED);
+
+        $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
+        $service->unsubscribe("unit@test.com", "uuid4");
+        $this->assertEquals(200, http_response_code());
+    }
+
+    public function testReturns410WhenEmailAlreadyDeleted()
+    {
+        $mailConfigurator = $this->createStub(MailConfigurator::class);
+
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('unsubscribe')->willReturn(UnsubscribeStatus::ALREADY_DELETED);
+
+        $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
+        $service->unsubscribe("unit@test.com", "uuid4");
+        $this->assertEquals(410, http_response_code());
+    }
+
+    public function testReturns403WhenTokenWrong() 
+    {
+        $mailConfigurator = $this->createStub(MailConfigurator::class);
+
+        $mockRepository = $this->createMock(NewsletterRepository::class);
+        $mockRepository->expects($this->once())->method('unsubscribe')->willReturn(UnsubscribeStatus::TOKEN_WRONG);
+
+        $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
+        $service->unsubscribe("unit@test.com", "uuid4");
+        $this->assertEquals(403, http_response_code());
     }
 }

@@ -51,4 +51,20 @@ class NewsletterService
         }
         http_response_code(204);
     }
+
+    public function unsubscribe(string $email, string $token)
+    {
+        switch($this->repository->unsubscribe($email, $token))
+        {
+            case UnsubscribeStatus::SUCCESSFULLY_DELETED:
+                http_response_code(200);
+                return;
+            case UnsubscribeStatus::ALREADY_DELETED:
+                http_response_code(410);
+                return;
+            case UnsubscribeStatus::TOKEN_WRONG:
+                http_response_code(403);
+                return;
+        }
+    }
 }

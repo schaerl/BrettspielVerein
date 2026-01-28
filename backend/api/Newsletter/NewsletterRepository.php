@@ -3,6 +3,7 @@
 use BVZ\BvzRepository;
 use BVZ\BvzRepositoryException;
 use BVZ\Logging\LoggerFactory;
+use BVZ\Newsletter\UnsubscribeStatus;
 use Monolog\Logger;
 use PDOException;
 
@@ -41,6 +42,60 @@ class NewsletterRepository extends BvzRepository
             }
             $this->logger->error($e->getMessage());
             throw new BvzRepositoryException("Inserting into subscribers DB failed!");
+        }
+    }
+
+    public function unsubscribe(string $email, string $removalKey): UnsubscribeStatus
+    {
+        try
+        {
+            $delete = $this->getQueryFactory()->newDelete()
+                ->from('subscriber')
+                ->where('email = :email')
+                ->where('removal_key = :token')
+                ->bindValues(["email" => $email, "token" => $removalKey]);
+
+            $affectedRows = $this->getConnection()->fetchAffected($delete->getStatement(), $delete->getBindValues());
+            if ($affectedRows > 0)
+            {
+                return UnsubscribeStatus::SUCCESSFULLY_DELETED;
+            }
+            else
+            {
+                $email = $this->fetchOne($email);
+                if ($email === null)
+                {
+                    return UnsubscribeStatus::ALREADY_DELETED;
+                }
+                else
+                {
+                    return UnsubscribeStatus::TOKEN_WRONG;
+                }
+            }
+        }
+        catch (PDOException $e)
+        {
+            $this->logger->error($e->getMessage());
+            throw new BvzRepositoryException("Deleting from subscribers DB failed!");
+        }
+    }
+
+    private function fetchOne(string $email)
+    {
+        $queryBuilder = $this->getQueryFactory();
+        $select = $queryBuilder->newSelect()
+            ->cols(['s.email', 's.removal_key'])
+            ->from('subscriber AS s')
+            ->where('s.email = :email')
+            ->bindValue('email', $email);
+
+        $result = $this->getConnection()->fetchObjects($select->getStatement(), $select->getBindValues());
+        if (empty($result))
+        {
+            return null;
+        }
+        else {
+            return $result[0];
         }
     }
 }

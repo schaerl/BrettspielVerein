@@ -4,8 +4,11 @@ use BVZ\Newsletter\NewsletterController;
 use BVZ\Newsletter\NewsletterDTO;
 use BVZ\Newsletter\NewsletterParser;
 use BVZ\Newsletter\NewsletterService;
+use BVZ\Newsletter\NewsletterUnsubscribeDTO;
+use BVZ\Request\DeleteRequest;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
+use BVZ\Request\QuerySpecParser;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -60,5 +63,27 @@ class NewsletterControllerTest extends TestCase
         $controller = new NewsletterController($mockParser, $mockService);
 
         $controller->handle(new PostRequest("dummy"));
+    }
+
+    public function testHandleCallsServiceToUnsubscribeWithResultFromRequestHandler()
+    {
+        $email = 'unit@test.com';
+        $uuid = 'uuid4';
+        $mockParser = $this->createStub(NewsletterParser::class);
+
+        $mockQueryParser = $this->createStub(QuerySpecParser::class);
+        $mockRequest = new stdClass();
+        $mockRequest->email = $email;
+        $mockRequest->token = $uuid;
+        $mockQueryParser->method('parse')->willReturn($mockRequest);
+
+        $mockService = $this->createMock(NewsletterService::class);
+        $mockService->expects($this->once())
+                    ->method('unsubscribe')
+                    ->with($email, $uuid);
+
+        $controller = new NewsletterController($mockParser, $mockService, $mockQueryParser);
+
+        $controller->handle(new DeleteRequest("dummy"));
     }
 }

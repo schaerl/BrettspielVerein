@@ -1,0 +1,21 @@
+meta {
+  name: Unsubscribe
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{host}}/api/newsletter?email=bruno@api.com&token=<please-set-this>
+  body: none
+  auth: inherit
+}
+
+params:query {
+  email: bruno@api.com
+  token: <please-set-this>
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
