@@ -19,6 +19,12 @@ abstract class RequestHandler
 
     abstract function handleGet(GetRequest $get);
     abstract function handlePost(PostRequest $post);
+    public function handleDelete(DeleteRequest $delete)
+    {
+        http_response_code(405);
+        header("X-Error-State: DELETE not supported", false);
+        return;
+    }
 
     protected function parseRequest(QuerySpec $querySpec, Request $request): object
     {

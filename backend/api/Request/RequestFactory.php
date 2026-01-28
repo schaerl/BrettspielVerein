@@ -62,6 +62,8 @@ class RequestFactory {
                 return new GetRequest($uri, $params);
             case 'POST':
                 return new PostRequest($uri, $params, $this->extractPostBody());
+            case 'DELETE':
+                return new DeleteRequest($uri, $params);
         }
     }
 }
