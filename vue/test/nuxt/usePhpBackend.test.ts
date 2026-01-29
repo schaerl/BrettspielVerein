@@ -107,4 +107,18 @@ describe("usePhpBackend", () => {
       });
     });
   });
+
+  describe("delete", () => {
+    it("calls api at provided url, with provided query, as a DELETE", async () => {
+      const { del } = usePhpBackend("dummy.php");
+      const query = { a: "Unit", b: 4 };
+      const result = await del(query);
+
+      expect(result).toBe("Direct");
+      expect(mockApi).toBeCalledWith("dummy.php", {
+        query,
+        method: "DELETE",
+      });
+    });
+  });
 });

@@ -20,6 +20,7 @@ const { usePhpBackendMock }: { usePhpBackendMock: Mock<(_: string) => API<EventD
         get: (_?: BvzQuery) => Promise.resolve([testEvent]),
         getRaw: (_?: BvzQuery) => Promise.resolve(mockRawResponse),
         post: (_: EventData) => Promise.resolve(),
+        del: (_: EventData) => Promise.resolve(),
       };
     }),
   };
