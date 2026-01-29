@@ -31,6 +31,7 @@ abstract class RequestHandler
         $result = $this->querySpecParser->parse($querySpec, $request);
         if (is_array($result))
         {
+            http_response_code(400);
             throw new RequestException(implode('|', $result));
         }
         else return $result;
