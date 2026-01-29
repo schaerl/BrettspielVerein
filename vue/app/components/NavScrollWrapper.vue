@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 onMounted(() => {
   emit("provideNavigation", { displayName: title, scrolledBeginningToTop: scrolledOver, goTo: () => {
-    el.value.scrollIntoView({ behavior: "smooth" });
+    el.value!.scrollIntoView({ behavior: "smooth" });
   } });
 });
 </script>
