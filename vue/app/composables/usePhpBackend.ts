@@ -5,6 +5,7 @@ export interface API<TYPE> {
   get(query?: BvzQuery): Promise<TYPE[]>;
   getRaw(query?: BvzQuery): Promise<FetchResponse<TYPE[]>>;
   post(body: TYPE): Promise<void>;
+  del(query: BvzQuery): Promise<void>;
 }
 
 export default function<TYPE> (url: string): API<TYPE> {
@@ -43,6 +44,10 @@ export default function<TYPE> (url: string): API<TYPE> {
     post: (body: TYPE) => {
       trimStrings(body);
       return $api(url, { body: body as object, method: "POST" });
+    },
+
+    del: (query: BvzQuery) => {
+      return $api(url, { query, method: "DELETE" });
     },
   };
 }
