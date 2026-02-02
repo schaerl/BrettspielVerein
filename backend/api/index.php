@@ -13,8 +13,8 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 $logger = (new LoggerFactory())->getLogger('index.php');
 
-// Makes errors not output an error text, but instead return 500 when set to false
 if (Env::isDevEnv()){
+    // Makes errors not output an error text, but instead return 500 when set to false
     ini_set('display_errors', Env::isDevEnv());
     header('Access-Control-Expose-Headers: X-Total-Count');
 }
