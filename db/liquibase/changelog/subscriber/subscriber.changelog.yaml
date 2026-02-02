@@ -23,4 +23,11 @@ databaseChangeLog:
         - column:
             name: removal_key
             type: VARCHAR(128)
+    - createIndex:
+        clustered: true
+        columns:
+            - column:
+                name: email
+        indexName: idx_email
+        tableName: subscriber
 
