@@ -168,7 +168,7 @@ class BoolParamSpec extends ParamSpec
             $result["val"] = true;
             return $result;
         }
-        elseif (strtolower($result["val"] === "false"))
+        elseif (strtolower($result["val"]) === "false")
         {
             $result["val"] = false;
             return $result;

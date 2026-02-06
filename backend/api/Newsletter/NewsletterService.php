@@ -16,7 +16,7 @@ class NewsletterService
 
     function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator(),
         private readonly NewsletterRepository $repository = new NewsletterRepository(),
-        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+        LoggerFactory $loggerFactory = new LoggerFactory()
     )
     {
         $this->logger = $loggerFactory->getLogger('NewsletterService');

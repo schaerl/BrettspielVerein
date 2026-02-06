@@ -15,7 +15,7 @@ class MailConfigurator
     private readonly Logger $logger;
 
     public function __construct(
-        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+        LoggerFactory $loggerFactory = new LoggerFactory()
     )
     {
         $this->logger = $loggerFactory->getLogger('MailConfigurator');

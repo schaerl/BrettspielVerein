@@ -30,7 +30,6 @@ class EventServiceTest extends TestCase
         $this->assertContains('Content-Type: application/json', xdebug_get_headers());
         $this->assertContains('X-Total-Count: 1', xdebug_get_headers());
 
-        $this->assertNotNull($output);
         $this->assertJson($output);
     }
 

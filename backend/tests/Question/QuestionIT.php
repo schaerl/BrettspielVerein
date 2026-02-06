@@ -76,12 +76,4 @@ class QuestionIT extends TestCase
         $this->assertEquals(400, http_response_code());
         $this->assertContains("X-Error-State: message not found or empty!", xdebug_get_headers());
     }
-
-    private function getTemporaryFile(string $contents)
-    {
-        $file = tmpfile();
-        fwrite($file, $contents);
-        fseek($file, 0);
-        return $file;
-    }
 }

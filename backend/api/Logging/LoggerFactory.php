@@ -25,7 +25,7 @@ class LoggerFactory
     public function getLogger(string $loggerName): Logger
     {
         $log = new Logger($loggerName);
-        if (ENV::get(Env::LOG_LEVEL) === 'Off')
+        if (Env::get(Env::LOG_LEVEL) === 'Off')
         {
             $log->pushHandler(new NoopHandler());
             return$log;
@@ -67,8 +67,8 @@ class LoggerFactory
 
     private function getLogLevel() : Level
     {
-        $levelAsString = ENV::get(ENV::LOG_LEVEL);
-        return (new ReflectionEnum(Level::class))->getCase($levelAsString)->getValue();
+        $levelAsString = Env::get(Env::LOG_LEVEL);
+        return Level::{$levelAsString};
     }
 
     private function getFormatter() : FormatterInterface

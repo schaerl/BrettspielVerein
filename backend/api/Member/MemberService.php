@@ -13,7 +13,7 @@ class MemberService
     private readonly Logger $logger;
 
     function __construct(private MailConfigurator $mailConfigurator = new MailConfigurator(),
-        private readonly LoggerFactory $loggerFactory = new LoggerFactory()
+        LoggerFactory $loggerFactory = new LoggerFactory()
     )
     {
         $this->logger = $loggerFactory->getLogger('MemberService');
