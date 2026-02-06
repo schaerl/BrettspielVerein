@@ -4,7 +4,7 @@ namespace BVZ\Member;
 
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpecParser;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -13,10 +13,10 @@ class MemberController extends RequestHandler {
 
     function __construct(private MemberParser $parser = new MemberParser(),
         private MemberService $service = new MemberService(),
-        QuerySpecParser $querySpecParser = new QuerySpecParser()
+        RequestSpecParser $requestSpecParser = new RequestSpecParser()
     )
     {
-        parent::__construct($querySpecParser);
+        parent::__construct($requestSpecParser);
     }
 
     function handleGet(GetRequest $get)
@@ -42,6 +42,7 @@ class MemberController extends RequestHandler {
             return;
         }
         else
+
         {
             foreach($parsed->errors as $error)
             {

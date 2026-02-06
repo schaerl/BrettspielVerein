@@ -4,8 +4,8 @@ namespace BVZ\Events;
 
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
-use BVZ\Request\QuerySpec;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpec;
+use BVZ\Request\RequestSpecParser;
 use BVZ\Request\RequestHandler;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -14,10 +14,10 @@ class EventController extends RequestHandler {
 
     function __construct(
         private EventService $service = new EventService(),
-        QuerySpecParser $querySpecParser = new QuerySpecParser()
+        RequestSpecParser $requestSpecParser = new RequestSpecParser()
     )
     {
-        parent::__construct($querySpecParser);
+        parent::__construct($requestSpecParser);
     }
 
     function handleGet(GetRequest $get)
@@ -25,7 +25,7 @@ class EventController extends RequestHandler {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
         $params = $this->parseRequest(
-            (new QuerySpec())
+            (new RequestSpec())
                 ->withNumber('page', default: 1)
                 ->withNumber('pageSize', default: 3),
             $get);

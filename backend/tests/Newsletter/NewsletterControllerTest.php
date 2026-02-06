@@ -8,7 +8,7 @@ use BVZ\Newsletter\NewsletterUnsubscribeDTO;
 use BVZ\Request\DeleteRequest;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpecParser;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -71,7 +71,7 @@ class NewsletterControllerTest extends TestCase
         $uuid = 'uuid4';
         $mockParser = $this->createStub(NewsletterParser::class);
 
-        $mockQueryParser = $this->createStub(QuerySpecParser::class);
+        $mockQueryParser = $this->createStub(RequestSpecParser::class);
         $mockRequest = new stdClass();
         $mockRequest->email = $email;
         $mockRequest->token = $uuid;

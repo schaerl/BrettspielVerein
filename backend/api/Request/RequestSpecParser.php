@@ -6,16 +6,16 @@ use stdClass;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class QuerySpecParser
+class RequestSpecParser
 {
 
-    public function parse(QuerySpec $querySpec, Request $request): object | array
+    public function parse(RequestSpec $requestSpec, Request $request): object | array
     {
         $errors = array();
         $result = new stdClass();
         $params = $request->params;
 
-        foreach($querySpec->specs as $spec)
+        foreach($requestSpec->specs as $spec)
         {
             $validationResult = $spec->validate($params);
             if (array_key_exists("err", $validationResult))

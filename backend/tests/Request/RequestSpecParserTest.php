@@ -1,24 +1,24 @@
 <?php
 
 use BVZ\Request\GetRequest;
-use BVZ\Request\QuerySpec;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpec;
+use BVZ\Request\RequestSpecParser;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class QuerySpecParserTest extends TestCase
+class RequestSpecParserTest extends TestCase
 {
 
     public function testRequestWithRequiredFieldsParsedWhenDataAvailable()
     {
         $request = new GetRequest("", array("req1" => "dummy", "req2" => "1", "req3" => "false"));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withString("req1", true)
             ->withNumber("req2", true)
             ->withBool("req3", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsObject($result);
@@ -30,12 +30,12 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithDefaultValueParamsParsedWhenDataMissing()
     {
         $request = new GetRequest("");
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withString("req1", default: "dummy")
             ->withNumber("req2", default: 1)
             ->withBool("req3", default: false);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsObject($result);
@@ -47,12 +47,12 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithOptionalFieldsParsedWhenDataAvailable()
     {
         $request = new GetRequest("", array());
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withString("req1", false)
             ->withNumber("req2", false)
             ->withBool("req3", false);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsObject($result);
@@ -64,10 +64,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithValuelessBoolParamIsParsedAsTrue()
     {
         $request = new GetRequest("", array("req1" => null));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withBool("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsObject($result);
@@ -77,10 +77,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithValuelessStringFails()
     {
         $request = new GetRequest("", array("req1" => null));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withString("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -90,10 +90,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithValuelessNumberFails()
     {
         $request = new GetRequest("", array("req1" => null));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withNumber("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -103,10 +103,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithRequiredFieldsFailsParsingWhenStringDataNotAvailable()
     {
         $request = new GetRequest("", array());
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withString("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -116,10 +116,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithRequiredFieldsFailsParsingWhenNumberDataNotAvailable()
     {
         $request = new GetRequest("", array());
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withNumber("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -129,10 +129,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestFailsParsingWhenNumberDataNotANumber()
     {
         $request = new GetRequest("", array("req1" => "lul"));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withNumber("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -142,10 +142,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestWithRequiredFieldsFailsParsingWhenBooleanDataNotAvailable()
     {
         $request = new GetRequest("", array());
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withBool("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);
@@ -155,10 +155,10 @@ class QuerySpecParserTest extends TestCase
     public function testRequestFailsParsingWhenBoolDataNotABool()
     {
         $request = new GetRequest("", array("req1" => "lul"));
-        $spec = new QuerySpec()
+        $spec = new RequestSpec()
             ->withBool("req1", true);
 
-        $result = (new QuerySpecParser())
+        $result = (new RequestSpecParser())
             ->parse($spec, $request);
 
         $this->assertIsArray($result);

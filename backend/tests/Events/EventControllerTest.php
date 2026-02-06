@@ -4,7 +4,7 @@ use BVZ\Events\EventController;
 use BVZ\Events\EventService;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpecParser;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -27,7 +27,7 @@ class EventControllerTest extends TestCase
 
     public function testGetEventCallsServiceWithCorrectParams()
     {
-        $mockSpecParser = $this->createStub(QuerySpecParser::class);
+        $mockSpecParser = $this->createStub(RequestSpecParser::class);
         $mockRequest = new stdClass();
         $mockRequest->page = 0;
         $mockRequest->pageSize = 10;

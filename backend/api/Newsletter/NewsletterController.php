@@ -5,8 +5,8 @@ namespace BVZ\Newsletter;
 use BVZ\Request\DeleteRequest;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
-use BVZ\Request\QuerySpec;
-use BVZ\Request\QuerySpecParser;
+use BVZ\Request\RequestSpec;
+use BVZ\Request\RequestSpecParser;
 use BVZ\Request\RequestHandler;
 use Override;
 
@@ -16,10 +16,10 @@ class NewsletterController extends RequestHandler {
 
     function __construct(private NewsletterParser $parser = new NewsletterParser(),
         private NewsletterService $service = new NewsletterService(),
-        QuerySpecParser $querySpecParser = new QuerySpecParser()
+        RequestSpecParser $requestSpecParser = new RequestSpecParser()
     )
     {
-        parent::__construct($querySpecParser);
+        parent::__construct($requestSpecParser);
     }
 
     function handleGet(GetRequest $get)
@@ -40,7 +40,7 @@ class NewsletterController extends RequestHandler {
     function handleDelete(DeleteRequest $delete)
     {
         $params = $this->parseRequest(
-            (new QuerySpec())
+            (new RequestSpec())
                 ->withString('email', true)
                 ->withString('token', true),
             $delete);

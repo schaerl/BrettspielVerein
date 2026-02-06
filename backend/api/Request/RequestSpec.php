@@ -6,21 +6,21 @@ use ValueError;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
-class QuerySpec
+class RequestSpec
 {
 
     public array $specs = array();
 
     public function withString(string $name, 
         bool $required = false, 
-        ?string $default = null): QuerySpec
+        ?string $default = null): RequestSpec
     {
         array_push($this->specs, new StringParamSpec($name, $required, $default));
         return $this;
     }
     public function withNumber(string $name,
         bool $required = false,
-        ?int $default = null): QuerySpec
+        ?int $default = null): RequestSpec
     {
         array_push($this->specs, new NumberParamSpec($name, $required, $default));
         return $this;
@@ -28,7 +28,7 @@ class QuerySpec
     public function withBool(
         string $name,
         bool $required = false,
-        ?bool $default = null): QuerySpec
+        ?bool $default = null): RequestSpec
     {
         array_push($this->specs, new BoolParamSpec($name, $required, $default));
         return $this;

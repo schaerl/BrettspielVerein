@@ -8,7 +8,7 @@ abstract class RequestHandler
 {
 
     public function __construct(
-        public readonly QuerySpecParser $querySpecParser
+        public readonly RequestSpecParser $requestSpecParser
     )
     {}
 
@@ -26,9 +26,9 @@ abstract class RequestHandler
         return;
     }
 
-    protected function parseRequest(QuerySpec $querySpec, Request $request): object
+    protected function parseRequest(RequestSpec $requestSpec, Request $request): object
     {
-        $result = $this->querySpecParser->parse($querySpec, $request);
+        $result = $this->requestSpecParser->parse($requestSpec, $request);
         if (is_array($result))
         {
             http_response_code(400);
