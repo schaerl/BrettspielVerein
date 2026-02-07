@@ -14,7 +14,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterController extends RequestHandler {
 
-    function __construct(private NewsletterParser $parser = new NewsletterParser(),
+    function __construct(
         private NewsletterService $service = new NewsletterService(),
         RequestSpecParser $requestSpecParser = new RequestSpecParser()
     )
@@ -47,23 +47,13 @@ class NewsletterController extends RequestHandler {
         $this->unsubscribe($params->email, $params->token);
     }
 
-    private function subscribe(object $body): void
+    private function subscribe(PostRequest $request): void
     {
-        $parsed = $this->parser->parse($body);
-        if (empty($parsed->errors))
-        {
-            $this->service->subscribe($parsed);
-            return;
-        }
-        else
-        {
-            foreach($parsed->errors as $error)
-            {
-                header("X-Error-State: $error", false);
-            }
-            http_response_code(400);
-            return;
-        }
+        $params = $this->parseRequestBody(
+            (new RequestSpec())
+                ->withString('email', true)
+            , $request);
+        $this->service->subscribe($params->email);
     }
 
     private function unsubscribe(string $email, string $token): void

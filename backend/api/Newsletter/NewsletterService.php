@@ -22,11 +22,11 @@ class NewsletterService
         $this->logger = $loggerFactory->getLogger('NewsletterService');
     }
 
-    public function subscribe(NewsletterDTO $dto): void
+    public function subscribe(string $email): void
     {
         try
         {
-            $success = $this->repository->signUp($dto->email, Uuid::uuid4()->toString());
+            $success = $this->repository->signUp($email, Uuid::uuid4()->toString());
             if (!$success){
                 header("X-Error-State: Email already registered");
                 http_response_code(409);
@@ -40,10 +40,10 @@ class NewsletterService
             return;
         }
 
-        $transformArray = array("{mail}" => $dto->email);
+        $transformArray = array("{mail}" => $email);
         $subject = strtr("Newsletter-Abo von {mail}", $transformArray);
         $message = "Ich melde mich hiermit an :)";
-        $mail = $this->mailConfigurator->configureMail($subject, $message, $dto->email);
+        $mail = $this->mailConfigurator->configureMail($subject, $message, $email);
 
         $success = $mail->send();
         if (!$success) {

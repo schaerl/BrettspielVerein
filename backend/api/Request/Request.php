@@ -2,6 +2,8 @@
 
 namespace BVZ\Request;
 
+use stdClass;
+
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 abstract class Request
@@ -10,7 +12,9 @@ abstract class Request
      * @param array<string,mixed> $params
      */
     public function __construct(public readonly string $url,
-        public readonly array $params)
+        public readonly array $params,
+        public readonly stdClass $body
+    )
     {}
 
     abstract function trigger(RequestHandler $handler): void;

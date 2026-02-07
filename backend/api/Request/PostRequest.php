@@ -11,10 +11,10 @@ class PostRequest extends Request
     public function __construct(
         string $url,
         array $params = array(),
-        public readonly object $body = new stdClass()
+        stdClass $body = new stdClass()
     )
     {
-        parent::__construct($url, $params);
+        parent::__construct($url, $params, $body);
     }
 
     function trigger(RequestHandler $handler): void

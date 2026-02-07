@@ -36,4 +36,15 @@ abstract class RequestHandler
         }
         else return $result;
     }
+
+    protected function parseRequestBody(RequestSpec $requestSpec, Request $request): object
+    {
+        $result = $this->requestSpecParser->parseBody($requestSpec, $request);
+        if (is_array($result))
+        {
+            http_response_code(400);
+            throw new RequestException(implode('|', $result));
+        }
+        else return $result;
+    }
 }

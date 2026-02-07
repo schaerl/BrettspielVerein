@@ -4,10 +4,10 @@ use BVZ\BvzRepositoryException;
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Newsletter\NewsletterController;
-use BVZ\Newsletter\NewsletterParser;
 use BVZ\Newsletter\NewsletterRepository;
 use BVZ\Newsletter\NewsletterService;
 use BVZ\Request\PostRequest;
+use BVZ\Request\RequestException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 
@@ -30,10 +30,9 @@ class NewsletterIT extends TestCase
         $mockRepository = $this->createMock(NewsletterRepository::class);
         $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
 
-        $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
-        $controller = new NewsletterController($parser, $service);
+        $controller = new NewsletterController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -56,10 +55,9 @@ class NewsletterIT extends TestCase
         $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
 
 
-        $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
-        $controller = new NewsletterController($parser, $service);
+        $controller = new NewsletterController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -81,10 +79,9 @@ class NewsletterIT extends TestCase
             ->willThrowException(new BvzRepositoryException("Dummy"));
 
 
-        $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
-        $controller = new NewsletterController($parser, $service);
+        $controller = new NewsletterController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -107,10 +104,9 @@ class NewsletterIT extends TestCase
             ->willReturn(false);
 
 
-        $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
-        $controller = new NewsletterController($parser, $service);
+        $controller = new NewsletterController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -128,14 +124,13 @@ class NewsletterIT extends TestCase
         $mockRepository->expects($this->never())->method('signUp');
 
 
-        $parser = new NewsletterParser();
         $service = new NewsletterService($mockMailer, $mockRepository, new LoggerFactory(true));
 
-        $controller = new NewsletterController($parser, $service);
+        $controller = new NewsletterController($service);
 
+        $this->expectException(RequestException::class);
+        $this->expectExceptionMessage("Required parameter 'email' is missing!");
         $controller->handle(new PostRequest("dummy", body: $body));
 
-        $this->assertEquals(400, http_response_code());
-        $this->assertContains("X-Error-State: Email address not found!", xdebug_get_headers());
     }
 }

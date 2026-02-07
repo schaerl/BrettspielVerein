@@ -21,17 +21,6 @@ if (Env::isDevEnv()){
 
 try {
     $request = (new RequestFactory())->getRequest();
-}
-catch (RequestException $e)
-{
-    $message = $e->getMessage();
-    $logger->error("Error processing request: $message");
-    header("X-Error-State: $message");
-    http_response_code(400);
-    return;
-}
-try
-{
     switch ($request->url)
     {
         case '/api/newsletter':
@@ -50,6 +39,14 @@ try
             http_response_code(404);
             return;
     }
+}
+catch (RequestException $e)
+{
+    $message = $e->getMessage();
+    $logger->error("Error processing request: $message");
+    header("X-Error-State: $message");
+    http_response_code(400);
+    return;
 }
 catch (\Exception $e)
 {

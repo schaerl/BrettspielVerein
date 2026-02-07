@@ -3,7 +3,6 @@
 use BVZ\BvzRepositoryException;
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
-use BVZ\Newsletter\NewsletterDTO;
 use BVZ\Newsletter\NewsletterRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +27,7 @@ class NewsletterServiceTest extends TestCase
         $loggerFactory = new LoggerFactory(true);
 
         $service = new NewsletterService($mailConfigurator, $mockRepository, $loggerFactory);
-        $service->subscribe(NewsletterDTO::create("unit@test.com"));
+        $service->subscribe('unit@test.com');
 
         $this->assertEquals(204, http_response_code());
 
@@ -50,7 +49,7 @@ class NewsletterServiceTest extends TestCase
         $mockRepository->method('signUp')->willThrowException(new BvzRepositoryException("Dummy"));
 
         $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
-        $service->subscribe(NewsletterDTO::create("unit@test.com"));
+        $service->subscribe('unit@test.com');
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains('X-Error-State: Could not process signup request!', xdebug_get_headers());
@@ -71,7 +70,7 @@ class NewsletterServiceTest extends TestCase
         $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
 
         $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
-        $service->subscribe(NewsletterDTO::create("unit@test.com"));
+        $service->subscribe('unit@test.com');
         $this->assertEquals(204, http_response_code());
     }
 
@@ -90,7 +89,7 @@ class NewsletterServiceTest extends TestCase
         $mockRepository->expects($this->once())->method('signUp')->willReturn(true);
 
         $service = new NewsletterService($mailConfigurator, $mockRepository, new LoggerFactory(true));
-        $service->subscribe(NewsletterDTO::create("unit@test.com"));
+        $service->subscribe('unit@test.com');
         $this->assertEquals(204, http_response_code());
     }
 

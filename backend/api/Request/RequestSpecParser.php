@@ -22,7 +22,7 @@ class RequestSpecParser
     /**
      * @return object|list<string>
      */
-    public function parseBody(RequestSpec $requestSpec, DeleteRequest|PostRequest $request): object | array
+    public function parseBody(RequestSpec $requestSpec, Request $request): object | array
     {
         $params = (array) $request->body;
 
@@ -30,7 +30,7 @@ class RequestSpecParser
     }
 
     /**
-     * @param array<int,mixed> $params
+     * @param array<string,mixed> $params
      * @return object|list<string>
      */
     private function doParse(RequestSpec $requestSpec, array $params): object | array
