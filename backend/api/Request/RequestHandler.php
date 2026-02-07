@@ -12,14 +12,14 @@ abstract class RequestHandler
     )
     {}
 
-    public function handle(Request $request)
+    public function handle(Request $request): void
     {
         $request->trigger($this);
     }
 
-    abstract function handleGet(GetRequest $get);
-    abstract function handlePost(PostRequest $post);
-    public function handleDelete(DeleteRequest $delete)
+    abstract function handleGet(GetRequest $get): void;
+    abstract function handlePost(PostRequest $post): void;
+    public function handleDelete(DeleteRequest $delete): void
     {
         http_response_code(405);
         header("X-Error-State: DELETE not supported", false);

@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterParserTest extends TestCase
 {
-    public function testFailsFieldValidatorReportsError()
+    public function testFailsFieldValidatorReportsError(): void
     {
         $mockValidator = $this->createStub(FieldValidator::class);
         $mockValidator->method('validateEmailField')->willReturn(ValidationResult::error("Unit Test"));
@@ -21,7 +21,7 @@ class NewsletterParserTest extends TestCase
         $this->assertEquals(['Unit Test'], $result->errors);
     }
 
-    public function testReturnsEmailWhenContainedInBody()
+    public function testReturnsEmailWhenContainedInBody(): void
     {
         $mockValidator = $this->createStub(FieldValidator::class);
         $mockValidator->method('validateEmailField')->willReturn(ValidationResult::valid());

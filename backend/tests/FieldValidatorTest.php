@@ -7,7 +7,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 class FieldValidatorTest extends TestCase
 {
-    public function testValidateEmailFieldFailsWhenNotFound()
+    public function testValidateEmailFieldFailsWhenNotFound(): void
     {
         $body = new stdClass();
         $body->notMail = "a@mail.com";
@@ -17,7 +17,7 @@ class FieldValidatorTest extends TestCase
         $this->assertFalse($result->isValid);
     }
 
-    public function testValidateEmailFieldFailsWhenNotValidMail()
+    public function testValidateEmailFieldFailsWhenNotValidMail(): void
     {
         $body = new stdClass();
         $body->email = "an_invalid_mail.com";
@@ -27,7 +27,7 @@ class FieldValidatorTest extends TestCase
         $this->assertFalse($result->isValid);
     }
 
-    public function testValidateEmailSucceedsWhenValidMailFound()
+    public function testValidateEmailSucceedsWhenValidMailFound(): void
     {
         $body = new stdClass();
         $body->email = "a@valid-mail.com";
@@ -36,7 +36,7 @@ class FieldValidatorTest extends TestCase
         $this->assertTrue($result->isValid);
     }
 
-    public function testValidateNonEmptyStringFieldFailsWhenFieldNotFound()
+    public function testValidateNonEmptyStringFieldFailsWhenFieldNotFound(): void
     {
         $body = new stdClass();
         $body->field = "unit test";
@@ -46,7 +46,7 @@ class FieldValidatorTest extends TestCase
         $this->assertFalse($result->isValid);
     }
 
-    public function testValidateNonEmptyStringFieldFailsWhenFieldEmpty()
+    public function testValidateNonEmptyStringFieldFailsWhenFieldEmpty(): void
     {
         $body = new stdClass();
         $body->field = "";
@@ -56,7 +56,7 @@ class FieldValidatorTest extends TestCase
         $this->assertFalse($result->isValid);
     }
 
-    public function testValidateNonEmptyStringFieldSucceedsWhenValid()
+    public function testValidateNonEmptyStringFieldSucceedsWhenValid(): void
     {
         $body = new stdClass();
         $body->field = "something";

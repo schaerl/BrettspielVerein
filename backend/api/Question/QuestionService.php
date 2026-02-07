@@ -19,7 +19,7 @@ class QuestionService
         $this->logger = $loggerFactory->getLogger('QuestionService');
     }
 
-    public function ask(QuestionDTO $dto)
+    public function ask(QuestionDTO $dto): void
     {
         $transformArray = array("{fullName}" => $dto->fullName);
         $subject = strtr("Frage von {fullName}", $transformArray);

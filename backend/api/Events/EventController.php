@@ -20,7 +20,7 @@ class EventController extends RequestHandler {
         parent::__construct($requestSpecParser);
     }
 
-    function handleGet(GetRequest $get)
+    function handleGet(GetRequest $get): void
     {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
@@ -32,14 +32,14 @@ class EventController extends RequestHandler {
         $this->getEvents($params->page, $params->pageSize);
     }
 
-    function handlePost(PostRequest $post)
+    function handlePost(PostRequest $post): void
     {
         http_response_code(405);
         header("X-Error-State: POST not supported", false);
         return;
     }
 
-    private function getEvents(int $page, int $pageSize)
+    private function getEvents(int $page, int $pageSize): void
     {
         $this->service->getEvents($page, $pageSize);
     }

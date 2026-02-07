@@ -13,7 +13,9 @@ class RequestFactory {
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
-
+    /**
+     * @return array<string,string>
+     */
     private function getRequestQuery(): array
     {
         $result = array();
@@ -52,7 +54,7 @@ class RequestFactory {
         return $parsed;
     }
 
-    public function getRequest()
+    public function getRequest(): GetRequest | PostRequest | DeleteRequest
     {
         $uri = $this->getRequestUri();
         $params = $this->getRequestQuery();
@@ -64,6 +66,8 @@ class RequestFactory {
                 return new PostRequest($uri, $params, $this->extractPostBody());
             case 'DELETE':
                 return new DeleteRequest($uri, $params);
+            default:
+                throw new RequestException("Unsupported operation type!");
         }
     }
 }

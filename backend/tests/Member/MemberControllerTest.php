@@ -13,7 +13,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class MemberControllerTest extends TestCase
 {
 
-    public function testThrowsWhenCalledWithAGetRequest()
+    public function testThrowsWhenCalledWithAGetRequest(): void
     {
         $mockParser = $this->createStub(MemberParser::class);
         $mockService = $this->createMock(MemberService::class);
@@ -27,7 +27,7 @@ class MemberControllerTest extends TestCase
         $this->assertContains('X-Error-State: GET not supported', xdebug_get_headers());
     }
 
-    public function testReturnsWithoutCallingServiceIfParserReturnsInvalid()
+    public function testReturnsWithoutCallingServiceIfParserReturnsInvalid(): void
     {
         $mockParser = $this->createStub(MemberParser::class);
         $mockParser->method('parse')->willReturn(MemberDTO::error(["Unit Test","Another"]));
@@ -44,7 +44,7 @@ class MemberControllerTest extends TestCase
         $this->assertContains('X-Error-State: Another', xdebug_get_headers());
     }
 
-    public function testHandleCallsServiceWithResultFromRequestHandler()
+    public function testHandleCallsServiceWithResultFromRequestHandler(): void
     {
         $mockParser = $this->createStub(MemberParser::class);
         $mockParser->method('parse')->willReturn(MemberDTO::create('unit@test.com', "Unit", "Test", "Teststreet", "Testcity", "Hello there!"));

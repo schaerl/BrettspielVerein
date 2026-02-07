@@ -8,7 +8,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 class Env
 {
-    static $dotenv;
+    static Dotenv $dotenv;
 
     const DB_HOST = "DB_HOST";
     const DB_USER = "DB_USER";
@@ -26,26 +26,26 @@ class Env
     const DEV_PROFILE = "dev";
     const PRODUCTION_PROFILE = "production";
 
-    static function init()
+    static function init(): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
         $dotenv->safeLoad();
     }
 
-    static function get(string $key)
+    static function get(string $key): string
     {
-        if (Env::$dotenv == null) {
+        if (!isset(Env::$dotenv)) {
             Env::init();
         }
         return $_ENV[$key];
     }
 
-    static function isDevEnv()
+    static function isDevEnv(): bool
     {
         return Env::get(Env::PROFILE) === Env::DEV_PROFILE;
     }
 
-    static function getLogPath()
+    static function getLogPath(): string
     {
         $path = Env::get(Env::LOG_FILE_PATH);
         if (str_starts_with($path, "/"))

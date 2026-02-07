@@ -12,7 +12,6 @@ use Monolog\Handler\TestHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\LogRecord;
-use ReflectionEnum;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 

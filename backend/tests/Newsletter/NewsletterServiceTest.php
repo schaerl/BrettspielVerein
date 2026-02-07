@@ -15,7 +15,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterServiceTest extends TestCase
 {
-    public function testReturns204ButLogsWhenMailingDoesntWork() 
+    public function testReturns204ButLogsWhenMailingDoesntWork(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -38,7 +38,7 @@ class NewsletterServiceTest extends TestCase
         ));
     }
 
-    public function testReturns500WhenDbSignupDoesntWork() 
+    public function testReturns500WhenDbSignupDoesntWork(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -56,7 +56,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertContains('X-Error-State: Could not process signup request!', xdebug_get_headers());
     }
     
-    public function testReturns204SignupWorks() 
+    public function testReturns204SignupWorks(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -75,7 +75,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testReturns409WhenEmailAlreadyExists() 
+    public function testReturns409WhenEmailAlreadyExists(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);
@@ -94,7 +94,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testReturns204WhenEmailDeleted()
+    public function testReturns204WhenEmailDeleted(): void
     {
         $mailConfigurator = $this->createStub(MailConfigurator::class);
 
@@ -106,7 +106,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertEquals(200, http_response_code());
     }
 
-    public function testReturns410WhenEmailAlreadyDeleted()
+    public function testReturns410WhenEmailAlreadyDeleted(): void
     {
         $mailConfigurator = $this->createStub(MailConfigurator::class);
 
@@ -118,7 +118,7 @@ class NewsletterServiceTest extends TestCase
         $this->assertEquals(410, http_response_code());
     }
 
-    public function testReturns403WhenTokenWrong() 
+    public function testReturns403WhenTokenWrong(): void 
     {
         $mailConfigurator = $this->createStub(MailConfigurator::class);
 

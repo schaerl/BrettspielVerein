@@ -21,14 +21,14 @@ class MailConfigurator
         $this->logger = $loggerFactory->getLogger('MailConfigurator');
     }
 
-    private function baseConfigure()
+    private function baseConfigure(): PHPMailer
     {
         $mail = new PHPMailer();
         $mail->Debugoutput = $this->logger;
 
-        $mail->isSmtp();
+        $mail->isSMTP();
         $mail->Host = Env::get(Env::MAIL_HOST); // Specify main and backup SMTP servers
-        $mail->Port = Env::get(Env::MAIL_PORT); // TCP port to connect to
+        $mail->Port = intval(Env::get(Env::MAIL_PORT)); // TCP port to connect to
 
         $mail->addAddress('versand@brettspiel-zofingen.ch', 'Versand Brettspielverein Zofingen'); // Add a recipient
         $mail->isHTML(false);
@@ -36,7 +36,7 @@ class MailConfigurator
     }
 
 
-    function configureMail($subject, $message, $from): PHPMailer
+    function configureMail(string $subject, string $message, string $from): PHPMailer
     {
         $mail = MailConfigurator::baseConfigure();
         $profile = Env::get(Env::PROFILE);
@@ -55,12 +55,12 @@ class MailConfigurator
         return $mail;
     }
 
-    private function configureDummy($mail)
+    private function configureDummy(PHPMailer $mail): void
     {
         $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
     }
 
-    private function configureProduction($mail)
+    private function configureProduction(PHPMailer $mail): void
     {
         $mail->SMTPDebug = SMTP::DEBUG_OFF;
         $mail->SMTPAuth = true; // Enable SMTP authentication

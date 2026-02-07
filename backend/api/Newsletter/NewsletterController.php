@@ -22,14 +22,14 @@ class NewsletterController extends RequestHandler {
         parent::__construct($requestSpecParser);
     }
 
-    function handleGet(GetRequest $get)
+    function handleGet(GetRequest $get): void
     {
         http_response_code(405);
         header("X-Error-State: GET not supported", false);
         return;
     }
 
-    function handlePost(PostRequest $post)
+    function handlePost(PostRequest $post): void
     {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
@@ -37,7 +37,7 @@ class NewsletterController extends RequestHandler {
     }
 
     #[Override]
-    function handleDelete(DeleteRequest $delete)
+    function handleDelete(DeleteRequest $delete): void
     {
         $params = $this->parseRequest(
             (new RequestSpec())
@@ -47,7 +47,7 @@ class NewsletterController extends RequestHandler {
         $this->unsubscribe($params->email, $params->token);
     }
 
-    private function subscribe(object $body)
+    private function subscribe(object $body): void
     {
         $parsed = $this->parser->parse($body);
         if (empty($parsed->errors))
@@ -66,7 +66,7 @@ class NewsletterController extends RequestHandler {
         }
     }
 
-    private function unsubscribe(string $email, string $token)
+    private function unsubscribe(string $email, string $token): void
     {
         $this->service->unsubscribe($email, $token);
     }

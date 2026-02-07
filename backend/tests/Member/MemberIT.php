@@ -13,7 +13,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class MemberIT extends TestCase
 {
-    public function testSuccessfulRequest()
+    public function testSuccessfulRequest(): void
     {
         $body = json_decode('{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
         $expectedMessage = <<<TEST
@@ -46,7 +46,7 @@ class MemberIT extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testReturnsWith500WhenMailingFails()
+    public function testReturnsWith500WhenMailingFails(): void
     {
         $body = json_decode('{"firstName":"Unit", "lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
         $expectedMessage = <<<TEST
@@ -80,7 +80,7 @@ class MemberIT extends TestCase
         $this->assertContains("X-Error-State: Could not process member signup!", xdebug_get_headers());
     }
 
-    public function testFailsWhenMissingData()
+    public function testFailsWhenMissingData(): void
     {
         $body = json_decode('{"lastName":"Test","address1":"Teststreet","address2":"Testcity", "email": "unit@test.com", "message": "Hello"}');
 

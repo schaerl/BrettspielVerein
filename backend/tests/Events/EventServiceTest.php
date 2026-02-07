@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class EventServiceTest extends TestCase
 {
 
-    public function testGetEventsReturnsDataAsJson()
+    public function testGetEventsReturnsDataAsJson(): void
     {
         $event = $this->getEvent();
         $mockRepo = $this->createStub(EventRepository::class);

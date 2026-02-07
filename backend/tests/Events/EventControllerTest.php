@@ -12,7 +12,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class EventControllerTest extends TestCase
 {
 
-    public function testThrowsWhenCalledWithAPostRequest()
+    public function testThrowsWhenCalledWithAPostRequest(): void
     {
         $mockService = $this->createMock(EventService::class);
         $mockService->expects($this->never())->method($this->anything());
@@ -25,7 +25,7 @@ class EventControllerTest extends TestCase
         $this->assertContains('X-Error-State: POST not supported', xdebug_get_headers());
     }
 
-    public function testGetEventCallsServiceWithCorrectParams()
+    public function testGetEventCallsServiceWithCorrectParams(): void
     {
         $mockSpecParser = $this->createStub(RequestSpecParser::class);
         $mockRequest = new stdClass();

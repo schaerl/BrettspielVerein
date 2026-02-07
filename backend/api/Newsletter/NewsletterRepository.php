@@ -80,7 +80,7 @@ class NewsletterRepository extends BvzRepository
         }
     }
 
-    private function fetchOne(string $email)
+    private function fetchOne(string $email): ?string
     {
         $queryBuilder = $this->getQueryFactory();
         $select = $queryBuilder->newSelect()

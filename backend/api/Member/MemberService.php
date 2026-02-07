@@ -19,7 +19,7 @@ class MemberService
         $this->logger = $loggerFactory->getLogger('MemberService');
     }
 
-    public function register(MemberDTO $dto)
+    public function register(MemberDTO $dto): void
     {
         $transformArray = array(
             "{fullName}" => $dto->{"firstName"} . ' ' . $dto->{"lastName"}, "{addr1}" => $dto->{"address1"},

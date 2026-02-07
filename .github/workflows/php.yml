@@ -90,6 +90,6 @@ jobs:
         key: php-dev-${{ hashFiles('backend/composer.lock') }}
 
     - name: Run linting
-      run: ./vendor/bin/phpstan analyse api tests
+      run: ./vendor/bin/phpstan analyse --level=6 api tests
       working-directory: ./backend
 

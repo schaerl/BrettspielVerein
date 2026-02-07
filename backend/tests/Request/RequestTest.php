@@ -9,14 +9,16 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 class RequestTest extends TestCase
 {
-    public function testGetRequestTriggersHandlersHandleGet() {
+    public function testGetRequestTriggersHandlersHandleGet(): void
+    {
         $mockHandler = $this->createMock(RequestHandler::class);
         $mockHandler->expects($this->once())->method('handleGet');
 
         (new GetRequest("dummy"))->trigger($mockHandler);
     }
 
-    public function testPostRequestTriggersHandlersHandlePost() {
+    public function testPostRequestTriggersHandlersHandlePost(): void
+    {
         $mockHandler = $this->createMock(RequestHandler::class);
         $mockHandler->expects($this->once())->method('handlePost');
 

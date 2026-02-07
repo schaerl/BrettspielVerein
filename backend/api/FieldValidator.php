@@ -40,7 +40,7 @@ class ValidationResult
         return new ValidationResult(true);
     }
 
-    public static function error(string $message)
+    public static function error(string $message): ValidationResult
     {
         return new ValidationResult(false, $message);
     }

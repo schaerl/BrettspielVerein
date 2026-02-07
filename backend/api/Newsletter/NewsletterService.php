@@ -22,7 +22,7 @@ class NewsletterService
         $this->logger = $loggerFactory->getLogger('NewsletterService');
     }
 
-    public function subscribe(NewsletterDTO $dto)
+    public function subscribe(NewsletterDTO $dto): void
     {
         try
         {
@@ -52,7 +52,7 @@ class NewsletterService
         http_response_code(204);
     }
 
-    public function unsubscribe(string $email, string $token)
+    public function unsubscribe(string $email, string $token): void
     {
         switch($this->repository->unsubscribe($email, $token))
         {

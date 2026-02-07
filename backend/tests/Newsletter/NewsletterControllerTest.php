@@ -4,7 +4,6 @@ use BVZ\Newsletter\NewsletterController;
 use BVZ\Newsletter\NewsletterDTO;
 use BVZ\Newsletter\NewsletterParser;
 use BVZ\Newsletter\NewsletterService;
-use BVZ\Newsletter\NewsletterUnsubscribeDTO;
 use BVZ\Request\DeleteRequest;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
@@ -15,7 +14,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterControllerTest extends TestCase
 {
-    public function testThrowsWhenCalledWithAGetRequest()
+    public function testThrowsWhenCalledWithAGetRequest(): void
     {
         $mockParser = $this->createStub(NewsletterParser::class);
         $mockService = $this->createMock(NewsletterService::class);
@@ -29,7 +28,7 @@ class NewsletterControllerTest extends TestCase
         $this->assertContains('X-Error-State: GET not supported', xdebug_get_headers());
     }
 
-    public function testReturnsWithoutCallingServiceIfParserReturnsInvalid()
+    public function testReturnsWithoutCallingServiceIfParserReturnsInvalid(): void
     {
         $mockParser = $this->createStub(NewsletterParser::class);
         $mockParser->method('parse')->willReturn(NewsletterDTO::error(["Unit Test","Another"]));
@@ -46,7 +45,7 @@ class NewsletterControllerTest extends TestCase
         $this->assertContains('X-Error-State: Another', xdebug_get_headers());
     }
 
-    public function testHandleCallsServiceWithResultFromRequestHandler()
+    public function testHandleCallsServiceWithResultFromRequestHandler(): void
     {
         $email = 'unit@test.com';
         $mockParser = $this->createStub(NewsletterParser::class);
@@ -65,7 +64,7 @@ class NewsletterControllerTest extends TestCase
         $controller->handle(new PostRequest("dummy"));
     }
 
-    public function testHandleCallsServiceToUnsubscribeWithResultFromRequestHandler()
+    public function testHandleCallsServiceToUnsubscribeWithResultFromRequestHandler(): void
     {
         $email = 'unit@test.com';
         $uuid = 'uuid4';

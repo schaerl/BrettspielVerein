@@ -14,7 +14,7 @@ class DeleteRequest extends Request
         parent::__construct($url, $params);
     }
 
-    function trigger(RequestHandler $handler)
+    function trigger(RequestHandler $handler): void
     {
         $handler->handleDelete($this);
     }

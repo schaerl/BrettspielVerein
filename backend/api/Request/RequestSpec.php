@@ -9,6 +9,9 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class RequestSpec
 {
 
+    /**
+     * @var array<string,ParamSpec> $specs
+     */
     public array $specs = array();
 
     public function withString(string $name, 
@@ -46,8 +49,11 @@ abstract class ParamSpec
             throw new ValueError("QuerySpec has default but is optional!");
         }
     }
-
-    function validate($params): array
+    /**
+     * @param array<string,mixed> $params
+     * @return array<string,mixed>
+     */
+    function validate(array $params): array
     {
         $result = array();
         if (!array_key_exists($this->name, $params) && $this->required)
@@ -86,7 +92,7 @@ class StringParamSpec extends ParamSpec
         {
             $result["val"] = $this->default;
         }
-        elseif ($result["val"] === null)
+        elseif ($result["val"] == null)
         {
             $result["err"] = "Parameter '$this->name' is invalid, value is missing!";
         }

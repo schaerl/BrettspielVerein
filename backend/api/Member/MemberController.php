@@ -19,21 +19,21 @@ class MemberController extends RequestHandler {
         parent::__construct($requestSpecParser);
     }
 
-    function handleGet(GetRequest $get)
+    function handleGet(GetRequest $get): void
     {
         http_response_code(405);
         header("X-Error-State: GET not supported", false);
         return;
     }
 
-    function handlePost(PostRequest $post)
+    function handlePost(PostRequest $post): void
     {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
         $this->register($post->body);
     }
 
-    private function register(object $body)
+    private function register(object $body): void
     {
         $parsed = $this->parser->parse($body);
         if (empty($parsed->errors))

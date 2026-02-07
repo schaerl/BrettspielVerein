@@ -8,7 +8,10 @@ use BVZ\BvzRepository;
 
 class EventRepository extends BvzRepository
 {
-    public function getFutureEvents(int $page, int $pageSize)
+    /**
+     * @return list<Event>
+     */
+    public function getFutureEvents(int $page, int $pageSize): array
     {
         if ($page < 1)
         {
@@ -28,7 +31,7 @@ class EventRepository extends BvzRepository
         return $this->getConnection()->fetchObjects($select->getStatement(), $select->getBindValues(), Event::class);
     }
 
-    public function getFutureEventsCount()
+    public function getFutureEventsCount(): int
     {
         $queryBuilder = new QueryFactory('mysql', QueryFactory::COMMON);
         $select = $queryBuilder->newSelect()

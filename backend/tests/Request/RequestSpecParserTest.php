@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class RequestSpecParserTest extends TestCase
 {
 
-    public function testRequestWithRequiredFieldsParsedWhenDataAvailable()
+    public function testRequestWithRequiredFieldsParsedWhenDataAvailable(): void
     {
         $request = new GetRequest("", array("req1" => "dummy", "req2" => "1", "req3" => "false"));
         $spec = new RequestSpec()
@@ -27,7 +27,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertFalse($result->req3);
     }
 
-    public function testRequestWithDefaultValueParamsParsedWhenDataMissing()
+    public function testRequestWithDefaultValueParamsParsedWhenDataMissing(): void
     {
         $request = new GetRequest("");
         $spec = new RequestSpec()
@@ -44,7 +44,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertFalse($result->req3);
     }
 
-    public function testRequestWithOptionalFieldsParsedWhenDataAvailable()
+    public function testRequestWithOptionalFieldsParsedWhenDataAvailable(): void
     {
         $request = new GetRequest("", array());
         $spec = new RequestSpec()
@@ -61,7 +61,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertNull($result->req3);
     }
 
-    public function testRequestWithValuelessBoolParamIsParsedAsTrue()
+    public function testRequestWithValuelessBoolParamIsParsedAsTrue(): void
     {
         $request = new GetRequest("", array("req1" => null));
         $spec = new RequestSpec()
@@ -74,7 +74,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertTrue($result->req1);
     }
 
-    public function testRequestWithValuelessStringFails()
+    public function testRequestWithValuelessStringFails(): void
     {
         $request = new GetRequest("", array("req1" => null));
         $spec = new RequestSpec()
@@ -87,7 +87,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Parameter 'req1' is invalid, value is missing!", $result[0]);
     }
 
-    public function testRequestWithValuelessNumberFails()
+    public function testRequestWithValuelessNumberFails(): void
     {
         $request = new GetRequest("", array("req1" => null));
         $spec = new RequestSpec()
@@ -100,7 +100,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Parameter 'req1' is invalid, value is missing!", $result[0]);
     }
 
-    public function testRequestWithRequiredFieldsFailsParsingWhenStringDataNotAvailable()
+    public function testRequestWithRequiredFieldsFailsParsingWhenStringDataNotAvailable(): void
     {
         $request = new GetRequest("", array());
         $spec = new RequestSpec()
@@ -113,7 +113,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
     }
 
-    public function testRequestWithRequiredFieldsFailsParsingWhenNumberDataNotAvailable()
+    public function testRequestWithRequiredFieldsFailsParsingWhenNumberDataNotAvailable(): void
     {
         $request = new GetRequest("", array());
         $spec = new RequestSpec()
@@ -126,7 +126,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
     }
 
-    public function testRequestFailsParsingWhenNumberDataNotANumber()
+    public function testRequestFailsParsingWhenNumberDataNotANumber(): void
     {
         $request = new GetRequest("", array("req1" => "lul"));
         $spec = new RequestSpec()
@@ -139,7 +139,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Parameter 'req1' is invalid, cannot be parsed as number!", $result[0]);
     }
 
-    public function testRequestWithRequiredFieldsFailsParsingWhenBooleanDataNotAvailable()
+    public function testRequestWithRequiredFieldsFailsParsingWhenBooleanDataNotAvailable(): void
     {
         $request = new GetRequest("", array());
         $spec = new RequestSpec()
@@ -152,7 +152,7 @@ class RequestSpecParserTest extends TestCase
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
     }
 
-    public function testRequestFailsParsingWhenBoolDataNotABool()
+    public function testRequestFailsParsingWhenBoolDataNotABool(): void
     {
         $request = new GetRequest("", array("req1" => "lul"));
         $spec = new RequestSpec()

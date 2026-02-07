@@ -5,7 +5,6 @@ use BVZ\MailConfigurator;
 use BVZ\Question\QuestionDTO;
 use PHPUnit\Framework\TestCase;
 
-use BVZ\Question\QuestionParser;
 use BVZ\Question\QuestionService;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -13,7 +12,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class QuestionServiceTest extends TestCase
 {
-    public function testReturns500WhenMailingDoesntWork() 
+    public function testReturns500WhenMailingDoesntWork(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(false);
@@ -28,7 +27,7 @@ class QuestionServiceTest extends TestCase
         $this->assertContains('X-Error-State: Could not process question!', xdebug_get_headers());
     }
     
-    public function testReturns204WhenMailingWorks() 
+    public function testReturns204WhenMailingWorks(): void 
     {
         $mockMail = $this->createStub(PHPMailer::class);
         $mockMail->method('send')->willReturn(true);

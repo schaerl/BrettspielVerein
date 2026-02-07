@@ -15,7 +15,7 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 class NewsletterIT extends TestCase
 {
-    public function testSuccessfulRequest()
+    public function testSuccessfulRequest(): void
     {
         $body = json_decode('{"email": "unit@test.com"}');
 
@@ -40,7 +40,7 @@ class NewsletterIT extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testStillSucceedsWith204WhenMailingFails()
+    public function testStillSucceedsWith204WhenMailingFails(): void
     {
         $body = json_decode('{"email": "unit@test.com"}');
 
@@ -66,7 +66,7 @@ class NewsletterIT extends TestCase
         $this->assertEquals(204, http_response_code());
     }
 
-    public function testFailsWith500WhenDbSignupFails()
+    public function testFailsWith500WhenDbSignupFails(): void
     {
         $body = json_decode('{"email": "unit@test.com"}');
 
@@ -92,7 +92,7 @@ class NewsletterIT extends TestCase
         $this->assertContains('X-Error-State: Could not process signup request!', xdebug_get_headers());
     }
 
-    public function testFailsWith409WhenEmailAlreadyExists()
+    public function testFailsWith409WhenEmailAlreadyExists(): void
     {
         $body = json_decode('{"email": "unit@test.com"}');
 
@@ -117,7 +117,7 @@ class NewsletterIT extends TestCase
         $this->assertEquals(409, http_response_code());
     }
 
-    public function testFailsWhenMissingData()
+    public function testFailsWhenMissingData(): void
     {
         $body = json_decode('{"notemail": "unit@test.com"}');
 

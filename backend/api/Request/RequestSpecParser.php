@@ -9,6 +9,9 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class RequestSpecParser
 {
 
+    /**
+     * @return object|list<string>
+     */
     public function parse(RequestSpec $requestSpec, Request $request): object | array
     {
         $errors = array();

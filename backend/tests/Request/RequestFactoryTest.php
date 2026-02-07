@@ -18,7 +18,7 @@ class RequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = '';
     }
 
-    public function testGetRequestCreatedSuccessfully()
+    public function testGetRequestCreatedSuccessfully(): void
     {
         $_SERVER['REQUEST_URI'] = "/api/unit/test";
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -28,7 +28,7 @@ class RequestFactoryTest extends TestCase
         $this->assertEquals('/api/unit/test', $request->url);
     }
 
-    public function testGetRequestParametersAreParsedSuccessfully()
+    public function testGetRequestParametersAreParsedSuccessfully(): void
     {
         $_SERVER['REQUEST_URI'] = "/api/unit/test?param1=hello&param2=world&param3=Data123%21%40-_+%2B&valueless";
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -42,7 +42,9 @@ class RequestFactoryTest extends TestCase
         $this->assertArrayHasKey('valueless', $request->params);
         $this->assertNull($request->params['valueless']);
     }
-
+    /**
+     * @return array<int,array<int,string>>
+     */
     public static function invalidBodyProvider() : array {
         return array(
             [""],
@@ -53,7 +55,7 @@ class RequestFactoryTest extends TestCase
     }
 
     #[DataProvider("invalidBodyProvider")]
-    public function testExtractPostBodyFailsWhenNotValidJson(string $invalidBody)
+    public function testExtractPostBodyFailsWhenNotValidJson(string $invalidBody): void
     {
         $file = $this->getTemporaryFile($invalidBody);
         $fileName = stream_get_meta_data($file)['uri'];
@@ -65,7 +67,7 @@ class RequestFactoryTest extends TestCase
         $factory->getRequest();
     }
 
-    public function testExtractPostBodyReturnsFilePassedToHandler()
+    public function testExtractPostBodyReturnsFilePassedToHandler(): void
     {
         $file = $this->getTemporaryFile('{"email":"test@unit.com"}');
         $fileName = stream_get_meta_data($file)['uri'];
@@ -79,8 +81,10 @@ class RequestFactoryTest extends TestCase
         $expectedBody->email = "test@unit.com";
         $this->assertEquals($expectedBody, $request->body);
     }
-
-    private function getTemporaryFile(string $contents)
+    /**
+     * @return resource|bool
+     */
+    private function getTemporaryFile(string $contents): mixed
     {
         $file = tmpfile();
         fwrite($file, $contents);
