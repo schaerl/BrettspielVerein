@@ -26,9 +26,9 @@ abstract class RequestHandler
         return;
     }
 
-    protected function parseRequest(RequestSpec $requestSpec, Request $request): object
+    protected function parseRequestQuery(RequestSpec $requestSpec, Request $request): object
     {
-        $result = $this->requestSpecParser->parse($requestSpec, $request);
+        $result = $this->requestSpecParser->parseQuery($requestSpec, $request);
         if (is_array($result))
         {
             http_response_code(400);

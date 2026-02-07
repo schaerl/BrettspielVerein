@@ -16,9 +16,9 @@ class EventServiceTest extends TestCase
         $mockRepo = $this->createStub(EventRepository::class);
         $mockRepo->method('getFutureEvents')
                  ->with(1, 1)
-                 ->willReturn($event);
+                 ->willReturn([$event]);
         $mockRepo->method('getFutureEventsCount')
-                 ->willReturn('1');
+                 ->willReturn(1);
         
         $service = new EventService($mockRepo);
 

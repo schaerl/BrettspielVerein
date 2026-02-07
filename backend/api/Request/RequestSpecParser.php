@@ -12,11 +12,31 @@ class RequestSpecParser
     /**
      * @return object|list<string>
      */
-    public function parse(RequestSpec $requestSpec, Request $request): object | array
+    public function parseQuery(RequestSpec $requestSpec, Request $request): object | array
+    {
+        $params = $request->params;
+
+        return $this->doParse($requestSpec, $params);
+    }
+
+    /**
+     * @return object|list<string>
+     */
+    public function parseBody(RequestSpec $requestSpec, DeleteRequest|PostRequest $request): object | array
+    {
+        $params = (array) $request->body;
+
+        return $this->doParse($requestSpec, $params);
+    }
+
+    /**
+     * @param array<int,mixed> $params
+     * @return object|list<string>
+     */
+    private function doParse(RequestSpec $requestSpec, array $params): object | array
     {
         $errors = array();
         $result = new stdClass();
-        $params = $request->params;
 
         foreach($requestSpec->specs as $spec)
         {

@@ -19,7 +19,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req3", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsObject($result);
         $this->assertEquals("dummy", $result->req1);
@@ -36,7 +36,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req3", default: false);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsObject($result);
         $this->assertEquals("dummy", $result->req1);
@@ -53,7 +53,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req3", false);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsObject($result);
         $this->assertNull($result->req1);
@@ -68,7 +68,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsObject($result);
         $this->assertTrue($result->req1);
@@ -81,7 +81,7 @@ class RequestSpecParserTest extends TestCase
             ->withString("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Parameter 'req1' is invalid, value is missing!", $result[0]);
@@ -94,7 +94,7 @@ class RequestSpecParserTest extends TestCase
             ->withNumber("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Parameter 'req1' is invalid, value is missing!", $result[0]);
@@ -107,7 +107,7 @@ class RequestSpecParserTest extends TestCase
             ->withString("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
@@ -120,7 +120,7 @@ class RequestSpecParserTest extends TestCase
             ->withNumber("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
@@ -133,7 +133,7 @@ class RequestSpecParserTest extends TestCase
             ->withNumber("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Parameter 'req1' is invalid, cannot be parsed as number!", $result[0]);
@@ -146,7 +146,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Required parameter 'req1' is missing!", $result[0]);
@@ -159,7 +159,7 @@ class RequestSpecParserTest extends TestCase
             ->withBool("req1", true);
 
         $result = (new RequestSpecParser())
-            ->parse($spec, $request);
+            ->parseQuery($spec, $request);
 
         $this->assertIsArray($result);
         $this->assertEquals("Parameter 'req1' is invalid, cannot be parsed as bool!", $result[0]);

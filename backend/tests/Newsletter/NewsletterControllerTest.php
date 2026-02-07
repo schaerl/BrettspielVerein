@@ -74,7 +74,7 @@ class NewsletterControllerTest extends TestCase
         $mockRequest = new stdClass();
         $mockRequest->email = $email;
         $mockRequest->token = $uuid;
-        $mockQueryParser->method('parse')->willReturn($mockRequest);
+        $mockQueryParser->method('parseQuery')->willReturn($mockRequest);
 
         $mockService = $this->createMock(NewsletterService::class);
         $mockService->expects($this->once())

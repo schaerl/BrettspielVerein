@@ -33,13 +33,13 @@ class NewsletterController extends RequestHandler {
     {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
-        $this->subscribe($post->body);
+        $this->subscribe($post);
     }
 
     #[Override]
     function handleDelete(DeleteRequest $delete): void
     {
-        $params = $this->parseRequest(
+        $params = $this->parseRequestQuery(
             (new RequestSpec())
                 ->withString('email', true)
                 ->withString('token', true),

@@ -31,7 +31,7 @@ class EventControllerTest extends TestCase
         $mockRequest = new stdClass();
         $mockRequest->page = 0;
         $mockRequest->pageSize = 10;
-        $mockSpecParser->method('parse')->willReturn($mockRequest);
+        $mockSpecParser->method('parseQuery')->willReturn($mockRequest);
 
         $mockService = $this->createMock(EventService::class);
         $mockService->expects($this->once())->method('getEvents')->with(0, 10);
