@@ -2,6 +2,7 @@
 
 namespace BVZ\Request;
 
+use Closure;
 use ValueError;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -16,9 +17,10 @@ class RequestSpec
 
     public function withString(string $name, 
         bool $required = false, 
-        ?string $default = null): RequestSpec
+        ?string $default = null,
+        ?Closure $validator = null): RequestSpec
     {
-        array_push($this->specs, new StringParamSpec($name, $required, $default));
+        array_push($this->specs, new StringParamSpec($name, $required, $default, $validator));
         return $this;
     }
     public function withNumber(string $name,
@@ -72,11 +74,15 @@ abstract class ParamSpec
 
 class StringParamSpec extends ParamSpec
 {
+    private readonly Closure $validator;
+
     function __construct(
         string $name,
         bool $required = false,
-        ?string $default = null)
+        ?string $default = null,
+        ?Closure $validator = null)
     {
+        $this->validator = is_callable($validator) ? $validator : fn(string $val) => true;
         parent::__construct($name, $required, $default);
     }
 
@@ -95,6 +101,14 @@ class StringParamSpec extends ParamSpec
         elseif ($result["val"] == null)
         {
             $result["err"] = "Parameter '$this->name' is invalid, value is missing!";
+        }
+        else {
+        $validatorMessage = ($this->validator)($result['val']);
+            if (is_string($validatorMessage))
+            {
+                unset($result["val"]);
+                $result["err"] = $validatorMessage;
+            } 
         }
         return $result;
     }

@@ -8,6 +8,7 @@ use BVZ\Request\PostRequest;
 use BVZ\Request\RequestSpec;
 use BVZ\Request\RequestSpecParser;
 use BVZ\Request\RequestHandler;
+use BVZ\Request\RequestValidator;
 use Override;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -51,7 +52,7 @@ class NewsletterController extends RequestHandler {
     {
         $params = $this->parseRequestBody(
             (new RequestSpec())
-                ->withString('email', true)
+                ->withString('email', true, validator: RequestValidator::validateEmail(...))
             , $request);
         $this->service->subscribe($params->email);
     }
