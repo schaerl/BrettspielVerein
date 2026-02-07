@@ -3,9 +3,9 @@
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
 use BVZ\Question\QuestionController;
-use BVZ\Question\QuestionParser;
 use BVZ\Question\QuestionService;
 use BVZ\Request\PostRequest;
+use BVZ\Request\RequestException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 
@@ -25,11 +25,9 @@ class QuestionIT extends TestCase
             ->with('Frage von Unit Test', 'Hello there', 'unit@test.com')
             ->willReturn($mockMail);
 
-
-        $parser = new QuestionParser();
         $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
-        $controller = new QuestionController($parser, $service);
+        $controller = new QuestionController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -48,10 +46,9 @@ class QuestionIT extends TestCase
             ->with('Frage von Unit Test', 'Hello there', 'unit@test.com')
             ->willReturn($mockMail);
 
-        $parser = new QuestionParser();
         $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
-        $controller = new QuestionController($parser, $service);
+        $controller = new QuestionController($service);
 
         $controller->handle(new PostRequest("dummy", body: $body));
 
@@ -66,14 +63,12 @@ class QuestionIT extends TestCase
         $mockMailer = $this->createMock(MailConfigurator::class);
         $mockMailer->expects($this->never())->method('configureMail');
 
-        $parser = new QuestionParser();
         $service = new QuestionService($mockMailer, new LoggerFactory(true));
 
-        $controller = new QuestionController($parser, $service);
+        $controller = new QuestionController($service);
 
+        $this->expectException(RequestException::class);
+        $this->expectExceptionMessage("Required parameter 'message' is missing!");
         $controller->handle(new PostRequest("dummy", body: $body));
-
-        $this->assertEquals(400, http_response_code());
-        $this->assertContains("X-Error-State: message not found or empty!", xdebug_get_headers());
     }
 }

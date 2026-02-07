@@ -2,10 +2,11 @@
 
 use BVZ\Question\QuestionController;
 use BVZ\Question\QuestionDTO;
-use BVZ\Question\QuestionParser;
 use BVZ\Question\QuestionService;
 use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
+use BVZ\Request\RequestException;
+use BVZ\Request\RequestSpecParser;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -14,11 +15,11 @@ class QuestionControllerTest extends TestCase
 {
     public function testThrowsWhenCalledWithAGetRequest(): void
     {
-        $mockParser = $this->createStub(QuestionParser::class);
+        $mockParser = $this->createStub(RequestSpecParser::class);
         $mockService = $this->createMock(QuestionService::class);
         $mockService->expects($this->never())->method('ask');
 
-        $controller = new QuestionController($mockParser, $mockService);
+        $controller = new QuestionController($mockService, $mockParser);
 
         $controller->handle(new GetRequest("Test"));
 
@@ -28,36 +29,38 @@ class QuestionControllerTest extends TestCase
 
     public function testReturnsWithoutCallingServiceIfParserReturnsInvalid(): void
     {
-        $mockParser = $this->createStub(QuestionParser::class);
-        $mockParser->method('parse')->willReturn(QuestionDTO::error(["Unit Test","Another"]));
+        $mockParser = $this->createStub(RequestSpecParser::class);
+        $mockParser->method('parseBody')->willReturn(["Unit Test","Another"]);
         $mockService = $this->createMock(QuestionService::class);
         $mockService->expects($this->never())->method('ask');
 
-        $controller = new QuestionController($mockParser, $mockService);
+        $controller = new QuestionController($mockService, $mockParser);
 
+        $this->expectException(RequestException::class);
+        $this->expectExceptionMessage('Unit Test|Another');
         $controller->handle(new PostRequest("dummy"));
-
-        $this->assertEquals(400, http_response_code());
-        $this->assertContains('X-Error-State: Unit Test', xdebug_get_headers());
-        $this->assertContains('X-Error-State: Another', xdebug_get_headers());
     }
 
     public function testHandleCallsServiceWithResultFromRequestHandler(): void
     {
-        $mockParser = $this->createStub(QuestionParser::class);
-        $mockParser->method('parse')->willReturn(QuestionDTO::create('unit@test.com', "Unit Test", "Hello there!"));
+        $mockParser = $this->createStub(RequestSpecParser::class);
+        $mockResponse = new stdClass();
+        $mockResponse->email = 'unit@test.com';
+        $mockResponse->fullName = 'Unit Test';
+        $mockResponse->message = 'Hello there!';
+        $mockParser->method('parseBody')->willReturn($mockResponse);
 
         $mockService = $this->createMock(QuestionService::class);
         $mockService->expects($this->once())
                     ->method('ask')
-                    ->willReturnCallback(function(QuestionDTO $dto)
+                    ->willReturnCallback(function(string $email, string $fullName, string $message)
                     {
-                        $this->assertEquals('unit@test.com', $dto->email);
-                        $this->assertEquals('Unit Test', $dto->fullName);
-                        $this->assertEquals('Hello there!', $dto->message);
+                        $this->assertEquals('unit@test.com', $email);
+                        $this->assertEquals('Unit Test', $fullName);
+                        $this->assertEquals('Hello there!', $message);
                     });
 
-        $controller = new QuestionController($mockParser, $mockService);
+        $controller = new QuestionController($mockService, $mockParser);
 
         $controller->handle(new PostRequest("dummy"));
     }

@@ -19,11 +19,11 @@ class QuestionService
         $this->logger = $loggerFactory->getLogger('QuestionService');
     }
 
-    public function ask(QuestionDTO $dto): void
+    public function ask(string $email, string $fullName, string $message): void
     {
-        $transformArray = array("{fullName}" => $dto->fullName);
+        $transformArray = array("{fullName}" => $fullName);
         $subject = strtr("Frage von {fullName}", $transformArray);
-        $mail =  $this->mailConfigurator->configureMail($subject, $dto->message, $dto->email);
+        $mail =  $this->mailConfigurator->configureMail($subject, $message, $email);
 
         $success = $mail->send();
         if (!$success) {

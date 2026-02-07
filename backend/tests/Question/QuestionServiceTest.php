@@ -2,7 +2,6 @@
 
 use BVZ\Logging\LoggerFactory;
 use BVZ\MailConfigurator;
-use BVZ\Question\QuestionDTO;
 use PHPUnit\Framework\TestCase;
 
 use BVZ\Question\QuestionService;
@@ -21,7 +20,7 @@ class QuestionServiceTest extends TestCase
             ->willReturn($mockMail);
 
         $service = new QuestionService($mailConfigurator, new LoggerFactory(true));
-        $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
+        $service->ask("unit@test.com", "Unit Test", "Hello");
 
         $this->assertEquals(500, http_response_code());
         $this->assertContains('X-Error-State: Could not process question!', xdebug_get_headers());
@@ -39,7 +38,7 @@ class QuestionServiceTest extends TestCase
             ->with('Frage von Unit Test', 'Hello', 'unit@test.com');
 
         $service = new QuestionService($mailConfigurator, new LoggerFactory(true));
-        $service->ask(QuestionDTO::create("unit@test.com", "Unit Test", "Hello"));
+        $service->ask("unit@test.com", "Unit Test", "Hello");
         $this->assertEquals(204, http_response_code());
     }
 }

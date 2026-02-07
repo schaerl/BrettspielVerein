@@ -6,12 +6,13 @@ use BVZ\Request\GetRequest;
 use BVZ\Request\PostRequest;
 use BVZ\Request\RequestSpecParser;
 use BVZ\Request\RequestHandler;
+use BVZ\Request\RequestSpec;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 class QuestionController extends RequestHandler {
 
-    function __construct(private QuestionParser $parser = new QuestionParser(),
+    function __construct(
         private QuestionService $service = new QuestionService(),
         RequestSpecParser $requestSpecParser = new RequestSpecParser()
     )
@@ -30,25 +31,18 @@ class QuestionController extends RequestHandler {
     {
         // We only have one operation for now, therefore we don't do any explicit
         // checks for what to call.
-        $this->ask($post->body);
+        $this->ask($post);
     }
 
-    private function ask(object $body): void
+    private function ask(PostRequest $request): void
     {
-        $parsed = $this->parser->parse($body);
-        if (empty($parsed->errors))
-        {
-            $this->service->ask($parsed);
-            return;
-        }
-        else
-        {
-            foreach($parsed->errors as $error)
-            {
-                header("X-Error-State: $error", false);
-            }
-            http_response_code(400);
-            return;
-        }
+        $params = $this->parseRequestBody(
+            (new RequestSpec())
+                ->withString('email', true)
+                ->withString('fullName', true)
+                ->withString('message', true),
+            $request);
+        $this->service->ask($params->email, $params->fullName, $params->message);
+        return;
     }
 }
