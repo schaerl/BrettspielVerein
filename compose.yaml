@@ -14,12 +14,23 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./backend/:/var/www/html # For the code
+      - ./symfony_backend/:/var/www/html # For the code
       - ./logging/:/log/
     networks:
       - bvz_network
     profiles:
       - dev
+  server_old:
+    image: bvz/php:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./backend/:/var/www/html # For the code
+      - ./logging/:/log/
+    networks:
+      - bvz_network
+    profiles:
+      - dev_old
   db:
     image: mysql:5.7
     restart: always
