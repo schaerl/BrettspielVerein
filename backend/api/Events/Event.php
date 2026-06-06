@@ -8,6 +8,7 @@ class Event
     public string $date;
     public string $start_time;
     public string $name;
+    public ?string $extra;
     public string $location;
     public int $price;
 }

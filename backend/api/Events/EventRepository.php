@@ -16,7 +16,7 @@ class EventRepository extends BvzRepository
         }
         $queryBuilder = $this->getQueryFactory();
         $select = $queryBuilder->newSelect()
-            ->cols(['e.id', 'e.date', 'e.start_time', 'e.location', 'et.name', 'et.price'])
+            ->cols(['e.id', 'e.date', 'e.start_time', 'e.location', 'e.extra', 'et.name', 'et.price'])
             ->from('event AS e')
             ->innerJoin('event_type AS et', 'e.event_type = et.id')
             ->where('e.date >= :current_date')
