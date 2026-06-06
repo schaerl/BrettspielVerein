@@ -196,3 +196,38 @@ databaseChangeLog:
             name: date
             value: '2026-03-20'
         where: date='2026-03-27'
+- changeSet:
+    id: 'event-data-7'
+    author: schaerl
+    comment: Vereinsmarkt 2026
+    changes:
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Vereinsmarkt')"
+        -  column:
+            name: date
+            value:  '2026-06-13'
+        -  column:
+            name: start_time
+            value:  '08:30:00'
+        - column:
+            name: location
+            value: 'Altstadt, 4800 Zofingen'
+        - column:
+            name: extra
+            value: 'https://www.zofingen.ch/politik/aktuell.html/73/news/17064'
+- changeSet:
+    id: 'event-data-sommer-grill-2026'
+    author: schaerl
+    comment: Information Grillen vor dem Brettspielabend
+    changes:
+    - update:
+        tableName: event
+        columns:
+        - column:
+            name: extra
+            value: An diesem Abend werden wir bei schönem Wetter grillen! In diesem Fall kann man bereits ab 18:00 Uhr kommen. Salat und Brot werden bereitgestellt, Grillgut bitte selber mitbringen. Die Entscheidung zur Durchführung wird im Gruppenchat am 26. Juni um 16:00 angekündigt. Beitreten kann man mit dem QR Code weiter oben auf der Seite. Bei schlechtem Wetter werden wir es im Juli versuchen.
+        where: date='2026-06-26'
