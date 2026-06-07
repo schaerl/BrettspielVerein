@@ -79,6 +79,7 @@ jobs:
         cp -r ./backend/api ./dist/app/
         cp ./backend/composer.json ./dist/app/
         cp ./backend/composer.lock ./dist/app/
+        ./scripts/copyHtaccess.sh ./backend/.htaccess ./dist/app/.htaccess
 
     - name: Install backend dependencies
       if: steps.get-php-cache.outputs.cache-hit != 'true'
