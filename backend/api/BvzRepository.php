@@ -18,7 +18,7 @@ abstract class BvzRepository
             Env::get(Env::DB_USER),
             Env::get(Env::DB_PW),
             [], // driver attributes/options as key-value pairs
-            []  // queries to execute after connection
+            ["SET NAMES utf8;"] // Initial queries: Enable UTF-8 encoding
         );
     }
 

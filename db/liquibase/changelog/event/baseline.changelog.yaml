@@ -67,3 +67,36 @@ databaseChangeLog:
         referencedTableName: event_type
         validate: true
 
+- changeSet:
+    id: 'event-data-4'
+    author: schaerl
+    comment: Vereinsmarkt
+    changes:
+    -  insert:
+        tableName:  event
+        columns:
+        -  column:
+            name:  event_type
+            valueComputed: "(Select id from event_type where name = 'Vereinsmarkt')"
+        -  column:
+            name: date
+            value:  '2025-06-14'
+        -  column:
+            name: start_time
+            value:  '08:30:00'
+        - column:
+            name: location
+            value: 'Altstadt, 4800 Zofingen'
+
+- changeSet:
+    id: 'table-update-event-add-extras'
+    author: schaerl
+    comment: This adds the column 'extras' to the table. It can contain extra information to be displayed.
+    changes:
+        - addColumn:
+            tableName: event
+            columns:
+                - column:
+                      name: extra
+                      type: VARCHAR(1024)
+

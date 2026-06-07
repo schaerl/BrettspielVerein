@@ -3,6 +3,10 @@ const { data } = defineProps<{ data: EventData }>();
 const formattedPrice = computed(() => {
   return !isNaN(parseFloat(data.price)) ? `${data.price}.-` : "-";
 });
+
+function isLink(text: string) {
+  return text.startsWith("http");
+}
 </script>
 
 <template>
@@ -33,6 +37,20 @@ const formattedPrice = computed(() => {
           <td>Eintritt:</td>
           <td>{{ formattedPrice }}</td>
         </tr>
+        <template v-if="data.extra">
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>Extra Informationen:</td>
+            <td v-if="isLink(data.extra)">
+              <a :href="data.extra">{{ data.extra }}</a>
+            </td>
+            <td v-else>
+              {{ data.extra }}
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
