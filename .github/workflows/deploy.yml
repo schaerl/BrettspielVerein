@@ -80,6 +80,8 @@ jobs:
         cp ./backend/composer.json ./dist/app/
         cp ./backend/composer.lock ./dist/app/
         ./scripts/copyHtaccess.sh ./backend/.htaccess ./dist/app/.htaccess
+        ls -la ./dist/app
+        cat ./dist/app/.htaccess
 
     - name: Install backend dependencies
       if: steps.get-php-cache.outputs.cache-hit != 'true'
@@ -102,6 +104,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build_no_env
+        include-hidden-files: true
         path: ./dist/app
 
 
