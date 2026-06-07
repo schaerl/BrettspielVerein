@@ -360,11 +360,9 @@ init)
     ;;
 npm)
     npm "$NPMX_COMMAND"
-    docker container rm $NPM_CONTAINER_NAME 2>&1
     ;;
 npx)
     npx "$NPMX_COMMAND"
-    docker container rm $NPM_CONTAINER_NAME 2>&1
     ;;
 migrateDevDb)
     migrateDevDb
