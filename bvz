@@ -45,7 +45,7 @@ buildBackendForIT() {
     echo "Calling PHP composer for IntegrationTest environment"
     cp -r backend/api $DIST_APP_DIR
     cp backend/.env $DIST_APP_DIR
-    copyHtaccessWithoutDev
+    ./scripts/copyHtaccess.sh ./backend/.htaccess $DIST_APP_DIR/.htaccess
     cp backend/composer.json $DIST_APP_DIR
     cp backend/composer.lock $DIST_APP_DIR
 
@@ -57,24 +57,6 @@ buildBackendForIT() {
         --volume $DIST_APP_DIR:/app \
         --user $(id -u):$(id -g) \
         $COMPOSER_DOCKER_IMAGE dump-autoload
-}
-
-# This method copies all lines until a line starting with #DEV is encountered
-# This marks the beginning of a dev-only section. Until another comment is 
-# found, no lines will be copied!
-copyHtaccessWithoutDev() {
-    DO_COPY=1
-    touch $DIST_APP_DIR/.htaccess
-    while read l; do
-        if [[ $l == \#DEV* ]]; then
-            DO_COPY=0
-        elif [[ $l == \#* ]]; then
-            DO_COPY=1
-        fi
-        if [[ $DO_COPY == 1 ]]; then
-            echo $l >> $DIST_APP_DIR/.htaccess
-        fi
-    done <backend/.htaccess
 }
 
 buildFrontend() {
