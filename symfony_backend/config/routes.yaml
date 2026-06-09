@@ -9,3 +9,5 @@
 
 controllers:
     resource: routing.controllers
+    prefix: '/api'
+    trailing_slash_on_root: false
