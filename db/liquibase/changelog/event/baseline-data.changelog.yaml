@@ -219,3 +219,17 @@ databaseChangeLog:
             name: location
             value: '-'
         where: date='2024-12-27'
+- changeSet:
+    id: 'event-data-flohmarkt'
+    author: schaerl
+    comment: Flohmarkt
+    changes:
+    -  insert:
+        tableName:  event_type
+        columns:
+        -  column:
+            name:  name
+            value:  'Flohmarkt'
+        -  column:
+            name: price
+            value:  0

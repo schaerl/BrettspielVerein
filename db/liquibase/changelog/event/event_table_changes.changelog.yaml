@@ -1,0 +1,14 @@
+databaseChangeLog:
+- changeSet:
+    id: 'table-update-event-add-priority'
+    author: schaerl
+    comment: This adds the column 'priority' to the table. It's a boolean flag that marks an event to be always fetched for the main page.
+    changes:
+        - addColumn:
+            tableName: event
+            columns:
+                - column:
+                      name: priority
+                      type: BOOLEAN
+                      defaultValue: false
+
