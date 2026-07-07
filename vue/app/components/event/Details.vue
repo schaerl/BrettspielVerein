@@ -44,7 +44,12 @@ function isLink(text: string) {
           <tr>
             <td>Extra Informationen:</td>
             <td v-if="isLink(data.extra)">
-              <a :href="data.extra">{{ data.extra }}</a>
+              <a
+                class="hover-link"
+                :href="data.extra"
+              >
+                {{ data.extra }}
+              </a>
             </td>
             <td v-else>
               {{ data.extra }}

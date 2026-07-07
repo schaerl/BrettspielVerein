@@ -13,6 +13,7 @@ describe("EventDetails", () => {
           price: "5",
           start_time: "19:30",
           name: "Test Event",
+          extra: "Extra info",
         },
       },
     });
@@ -24,11 +25,13 @@ describe("EventDetails", () => {
     expect(header.text()).toBe("Test Event");
 
     const tableRows = wrapper.findAll("tr");
-    expect(tableRows.length).toBe(3);
+    expect(tableRows.length).toBe(5);
 
     expect(tableRows[0]!.text()).toBe("Ort:Spittelhof");
     expect(tableRows[1]!.text()).toBe("Zeit:19:30");
     expect(tableRows[2]!.text()).toBe("Eintritt:5.-");
+    expect(tableRows[3]!.text()).toBe(""); // nbsp
+    expect(tableRows[4]!.text()).toBe("Extra Informationen:Extra info");
   });
 
   it("displays a dash when price is not a number", async () => {
@@ -36,8 +39,7 @@ describe("EventDetails", () => {
       props: {
         data: {
           id: "1",
-          date: "2025-05-14",
-          location: "Spittelhof",
+          date: "2025-05-14", location: "Spittelhof",
           price: "Not a number",
           start_time: "19:30",
           name: "Test Event",
@@ -47,5 +49,24 @@ describe("EventDetails", () => {
 
     const tableRows = wrapper.findAll("tr");
     expect(tableRows[2]!.text()).toBe("Eintritt:-");
+  });
+
+  it("makes 'extra' a link if it starts with 'http'", async () => {
+    const wrapper = await mountSuspended(EventDetails, {
+      props: {
+        data: {
+          id: "1",
+          date: "2025-05-14",
+          location: "Spittelhof",
+          price: "5",
+          start_time: "19:30",
+          name: "Test Event",
+          extra: "http://example.com",
+        },
+      },
+    });
+
+    const anchor = wrapper.find("a");
+    expect(anchor.text()).toBe("http://example.com");
   });
 });
