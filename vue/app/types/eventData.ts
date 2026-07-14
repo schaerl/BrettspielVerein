@@ -5,5 +5,5 @@ export type EventData = {
   name: string;
   location: string;
   price: string;
-  extra?: string;
+  priority?: boolean;
 };
