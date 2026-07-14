@@ -27,9 +27,10 @@ class EventController extends RequestHandler {
         $params = $this->parseRequest(
             (new QuerySpec())
                 ->withNumber('page', default: 1)
-                ->withNumber('pageSize', default: 3),
+                ->withNumber('pageSize', default: 3)
+                ->withBool('includePriority', default: false),
             $get);
-        $this->getEvents($params->page, $params->pageSize);
+        $this->getEvents($params->page, $params->pageSize, $params->includePriority);
     }
 
     function handlePost(PostRequest $post)
@@ -39,8 +40,8 @@ class EventController extends RequestHandler {
         return;
     }
 
-    private function getEvents(int $page, int $pageSize)
+    private function getEvents(int $page, int $pageSize, bool $includePriority)
     {
-        $this->service->getEvents($page, $pageSize);
+        $this->service->getEvents($page, $pageSize, $includePriority);
     }
 }

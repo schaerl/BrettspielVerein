@@ -11,4 +11,5 @@ class Event
     public ?string $extra;
     public string $location;
     public int $price;
+    public bool $priority;
 }
