@@ -6,7 +6,7 @@
 
 LIQUIBASE_DOCKER_IMAGE=bvz/liquibase-mysql:latest
 SERVER_DOCKER_IMAGE=bvz/php:latest
-NODE_DOCKER_IMAGE=node:24.12-alpine
+NODE_DOCKER_IMAGE=node:26
 COMPOSER_DOCKER_IMAGE=composer/composer
 PHPUNIT_DOCKER_IMAGE=jitesoft/phpunit:8.2
 
