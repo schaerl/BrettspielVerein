@@ -13,9 +13,9 @@ class EventServiceTest extends TestCase
     public function testGetEventsReturnsDataAsJson()
     {
         $event = $this->getEvent();
-        $mockRepo = $this->createStub(EventRepository::class);
+        $mockRepo = $this->createMock(EventRepository::class);
         $mockRepo->method('getFutureEvents')
-                 ->with(1, 1)
+                 ->with(1, 1, false)
                  ->willReturn($event);
         $mockRepo->method('getFutureEventsCount')
                  ->willReturn('1');
@@ -23,7 +23,7 @@ class EventServiceTest extends TestCase
         $service = new EventService($mockRepo);
 
         ob_start();
-        $service->getEvents(1,1);
+        $service->getEvents(1, 1, false);
         $output = ob_get_contents();
         ob_end_clean();
 
