@@ -14,6 +14,7 @@ describe("EventDetails", () => {
           start_time: "19:30",
           name: "Test Event",
           extra: "Extra info",
+          priority: false,
         },
       },
     });
@@ -43,6 +44,7 @@ describe("EventDetails", () => {
           price: "Not a number",
           start_time: "19:30",
           name: "Test Event",
+          priority: false,
         },
       },
     });
@@ -62,6 +64,7 @@ describe("EventDetails", () => {
           start_time: "19:30",
           name: "Test Event",
           extra: "http://example.com",
+          priority: false,
         },
       },
     });

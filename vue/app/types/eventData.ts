@@ -3,7 +3,8 @@ export type EventData = {
   date: string;
   start_time: string;
   name: string;
+  extra?: string;
   location: string;
   price: string;
-  priority?: boolean;
+  priority: boolean;
 };

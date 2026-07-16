@@ -28,10 +28,22 @@
         </tbody>
       </table>
       <div>
-        Falls du bei uns Spiele verkaufen willst, dann melde dich bitte auf <NuxtLink class="hover-link" href="https://www.unserbasar.de/?bvz2026">unserbasar</NuxtLink> an. Alle nötigen Informationen zur Nutzung der Seite findet ihr <NuxtLink class="hover-link" href="https://www.unserbasar.de/basarsoftware.php#teilnehmer">hier</NuxtLink>.
+        Falls du bei uns Spiele verkaufen willst, dann melde dich bitte auf <NuxtLink
+          class="hover-link"
+          href="https://www.unserbasar.de/?bvz2026"
+        >unserbasar</NuxtLink> an. Alle nötigen Informationen zur Nutzung der Seite findet ihr <NuxtLink
+          class="hover-link"
+          href="https://www.unserbasar.de/basarsoftware.php#teilnehmer"
+        >hier</NuxtLink>.
       </div>
       <div>
-        Falls du irgendwelche Fragen hast, sei es zum Event an sich, oder zum Verkauf, schreib eine Email an <NuxtLink class="hover-link" href="mailto:versand@brettspiel-zofingen.ch">versand@brettspiel-zofingen.ch</NuxtLink>, oder verwende unser <NuxtLink class="hover-link" to="/#kontakt">Kontaktformular</NuxtLink>.
+        Falls du irgendwelche Fragen hast, sei es zum Event an sich, oder zum Verkauf, schreib eine Email an <NuxtLink
+          class="hover-link"
+          href="mailto:versand@brettspiel-zofingen.ch"
+        >versand@brettspiel-zofingen.ch</NuxtLink>, oder verwende unser <NuxtLink
+          class="hover-link"
+          to="/#kontakt"
+        >Kontaktformular</NuxtLink>.
       </div>
       <div>
         Lasst euch diese Gelegenheit nicht entgehen! Wir freuen uns auf euer erscheinen.
