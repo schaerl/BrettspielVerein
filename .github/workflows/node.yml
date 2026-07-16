@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-frontend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
 
   frontend-tests:
     needs: build-frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
 
   lint:
     needs: build-frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v4
