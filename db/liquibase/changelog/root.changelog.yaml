@@ -1,5 +1,8 @@
 databaseChangeLog:
   - include:
+      file: event/event_table_changes.changelog.yaml
+      relativeToChangelogFile: true
+  - include:
       file: event/baseline.changelog.yaml
       relativeToChangelogFile: true
   - include:
@@ -13,7 +16,4 @@ databaseChangeLog:
       relativeToChangelogFile: true
   - include:
       file: subscriber/subscriber.changelog.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: event/event_table_changes.changelog.yaml
       relativeToChangelogFile: true
