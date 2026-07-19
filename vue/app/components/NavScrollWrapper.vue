@@ -18,10 +18,15 @@ onMounted(() => {
     el.value!.scrollIntoView({ behavior: "smooth" });
   } });
 });
+
+function generateId(input: string) {
+  return input.replaceAll(" ", "_").toLocaleLowerCase();
+}
 </script>
 
 <template>
   <div
+    :id="generateId(title)"
     ref="el"
     class="scroll-m-(--ui-header-height)"
   >

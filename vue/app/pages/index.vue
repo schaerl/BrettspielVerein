@@ -4,7 +4,7 @@ const emit = defineEmits<{
 }>();
 
 const { repository: eventRepository } = useEventRepository();
-const { data } = useLazyAsyncData(() => eventRepository.getEventData(), { server: false });
+const { data } = await useAsyncData(() => eventRepository.getEventData({ includePriority: true }), { server: false });
 
 const { alertData, triggerAlert } = useAlert();
 
@@ -28,8 +28,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="home">
+  <div raef="home">
     <AlertContainer :alert-data="alertData" />
+    <UBanner
+      title="Brettspielflohmarkt am 26. September!"
+      :actions="[{
+        label: 'Mehr erfahren',
+        variant: 'subtle',
+        to: '/flohmarkt' }]"
+      close
+    />
     <div>
       <ImageContainer :variant="1">
         <WelcomeBanner />

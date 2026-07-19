@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   setup-backend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
 
 
   backend-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: setup-backend
 
     steps:
@@ -72,7 +72,7 @@ jobs:
       working-directory: ./backend
 
   backend-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: setup-backend
 
     steps:

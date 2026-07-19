@@ -11,9 +11,9 @@ class EventService
     )
     {}
 
-    public function getEvents(int $page, int $pageSize)
+    public function getEvents(int $page, int $pageSize, bool $includePriority)
     {
-        $nextEvents = $this->repository->getFutureEvents($page, $pageSize);
+        $nextEvents = $this->repository->getFutureEvents($page, $pageSize, $includePriority);
         $count = $this->repository->getFutureEventsCount();
         header("X-Total-Count: $count");
 
