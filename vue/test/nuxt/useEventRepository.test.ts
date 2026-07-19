@@ -10,6 +10,7 @@ const testEvent: EventData = {
   name: "Brettspielabend",
   price: "5",
   start_time: "19:30:00",
+  priority: false,
 };
 
 const mockRawResponse: DeepMockProxy<FetchResponse<EventData[]>> = mockDeep<FetchResponse<EventData[]>>();
