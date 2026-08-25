@@ -4,6 +4,12 @@
 <template>
   <UContainer>
     <Section title="Flohmarkt am 26. September">
+      <img
+        class="float-right"
+        style="width: clamp(250px, 40%, 600px);"
+        src="/flyer_filled_more_details_small.png"
+        alt="Flohmarkt Flyer"
+      >
       <div>
         Wir freuen uns, euch zum ersten Mal einen Brettspielflohmarkt anbieten zu können! Hast du Spiele zu Hause, die ein neues Zuahuse suchen? Oder hast du Lust, ein neues Spiel in deine Sammlung zu holen? Dann melde dich entweder als Verkäufer an, oder komm vorbei! Am 26. September werden wir dies für euch möglich machen!
       </div>

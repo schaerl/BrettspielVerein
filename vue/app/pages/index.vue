@@ -34,13 +34,35 @@ onMounted(() => {
       title="Brettspielflohmarkt am 26. September!"
       :actions="[{
         label: 'Mehr erfahren',
-        variant: 'subtle',
+        size: 'lg',
+        variant: 'outline',
+        color: 'primary',
         to: '/flohmarkt' }]"
+      color="footer"
+      icon="i-lucide-info"
+      to="/flohmarkt"
+      target="_blank"
       close
+      :ui="{
+        container: 'h-18',
+        title: 'text-lg',
+      }"
     />
     <div>
       <ImageContainer :variant="1">
         <WelcomeBanner />
+        <template #right>
+          <div>
+            <h1>News</h1>
+            <div>
+              Am 26. September werden wir im Spittelhof einen Brettspielflhomarkt durchführen!              Mehr Informationen findest du <NuxtLink
+                class="hover-link"
+                style="text-decoration: underline;"
+                to="/flohmarkt"
+              >hier</NuxtLink>!
+            </div>
+          </div>
+        </template>
       </ImageContainer>
       <NavScrollWrapper
         title="Über uns"
