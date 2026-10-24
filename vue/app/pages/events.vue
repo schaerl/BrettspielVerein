@@ -14,6 +14,7 @@ async function updatePage(newPage: number) {
   page.value = newPage;
   await refreshNuxtData();
   refreshing.value = false;
+  window.scroll({ top: 0, left: 0, behavior: "smooth" });
 }
 </script>
 
