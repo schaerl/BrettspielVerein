@@ -28,6 +28,7 @@ export default function () {
         const response = await getRaw(query) as FetchResponse<EventData[]>;
         const total = Number(response.headers.get("X-Total-Count"));
         const data = response._data!;
+        data.forEach(item => shortenDateAndTime(item));
 
         return {
           total,
