@@ -14,10 +14,9 @@ function handleNavigation(event: HeaderSpec) {
   headerMap.set(event.displayName as AvailableHeaders, event);
 }
 
-const home = useTemplateRef("home");
 onMounted(() => {
   const navigationItems = [
-    { displayName: "Home", scrolledBeginningToTop: ref(true), goTo: () => home.value!.scrollIntoView({ behavior: "smooth" }) },
+    { displayName: "Home", scrolledBeginningToTop: ref(true), goTo: () => window.scroll({ top: 0, left: 0, behavior: "smooth" }) },
     headerMap.get("Über uns")!,
     headerMap.get("Mitgliedschaft")!,
     headerMap.get("Events")!,
@@ -28,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div raef="home">
+  <div>
     <AlertContainer :alert-data="alertData" />
     <div>
       <ImageContainer :variant="1">

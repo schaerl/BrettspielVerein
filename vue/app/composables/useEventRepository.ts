@@ -1,13 +1,14 @@
 import type { FetchResponse } from "ofetch";
 
 function shortenDateAndTime(data: EventData) {
-  data.start_time = data.start_time.substring(0, 5);
-  const date = new Date(data.date);
-  data.date = date.toLocaleString("de", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
+  return { ...data,
+    start_time: data.start_time.substring(0, 5),
+    date: new Date(data.date).toLocaleString("de", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+  };
 }
 
 export default function () {
@@ -18,8 +19,7 @@ export default function () {
       async getEventData(query?: Record<string, string | boolean | number>): Promise<EventData[]> {
         const promise: Promise<EventData[]> = get(query) as Promise<EventData[]>;
         return promise.then((data) => {
-          data.forEach(item => shortenDateAndTime(item));
-          return data;
+          return data.map(item => shortenDateAndTime(item));
         });
       },
 
@@ -31,7 +31,7 @@ export default function () {
 
         return {
           total,
-          data,
+          data: data.map(item => shortenDateAndTime(item)),
         };
       },
     },
