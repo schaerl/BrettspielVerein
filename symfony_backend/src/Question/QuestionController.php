@@ -16,7 +16,7 @@ class QuestionController extends AbstractController
     {
     }
 
-    #[Route('/question', methods: ['POST'])]
+    #[Route('/question', methods: ['POST'], format: 'json')]
     public function askQuestion(#[MapRequestPayload] QuestionDTO $questionDto): Response
     {
         $successfulSend = $this->questionService->ask($questionDto);
@@ -29,23 +29,4 @@ class QuestionController extends AbstractController
             return new Response('Could not process question', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
-#    private function ask(object $body)
-#    {
-#        $parsed = $this->parser->parse($body);
-#        if (empty($parsed->errors))
-#        {
-#            $this->service->ask($parsed);
-#            return;
-#        }
-#        else
-#        {
-#            foreach($parsed->errors as $error)
-#            {
-#                header("X-Error-State: $error", false);
-#            }
-#            http_response_code(400);
-#            return;
-#        }
-#    }
 }
