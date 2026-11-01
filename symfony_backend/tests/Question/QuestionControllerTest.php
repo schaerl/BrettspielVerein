@@ -1,15 +1,8 @@
 <?php
 
-use App\Question\QuestionService as QuestionQuestionService;
-use BVZ\Question\QuestionController;
-use BVZ\Question\QuestionDTO;
-use BVZ\Question\QuestionParser;
-use BVZ\Question\QuestionService;
-use BVZ\Request\GetRequest;
-use BVZ\Request\PostRequest;
+use App\Question\QuestionService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -47,7 +40,7 @@ class QuestionControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $serviceMock = $this->createStub(QuestionQuestionService::class);
+        $serviceMock = $this->createStub(QuestionService::class);
         $serviceMock->method('ask')->willReturn(false);
         $this->getContainer()->set('App\Question\QuestionService', $serviceMock);
 
