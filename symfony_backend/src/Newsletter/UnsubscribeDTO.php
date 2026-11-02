@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UnsubscribeDTO
 {
-    private function __construct(
+    public function __construct(
         #[NotBlank]
         public string $email,
         #[NotBlank]

@@ -30,8 +30,13 @@ class NewsletterService
         }
         catch (UniqueConstraintViolationException $e)
         {
-            $this->logger->error("Persisting the subscriber failed. Error: {error}", ['error' => $e->getMessage()]);
+            $this->logger->warning("The user already exists in the DB");
             return SubscribeStatus::ALREADY_REGISTERED;
+        }
+        catch (\Exception $e)
+        {
+            $this->logger->error("Persisting the subscriber failed. Error: {error}", ['error' => $e->getMessage()]);
+            return SubscribeStatus::ERROR;
         }
 
         $transformArray = array("{mail}" => $dto->email);
@@ -50,7 +55,6 @@ class NewsletterService
             $this->logger->error("Message could not be sent. Mailer Error: {error}", [
                 'error' => $e->getMessage()
             ]);
-            return SubscribeStatus::ERROR;
         }
         return SubscribeStatus::SUCCESS;
     }

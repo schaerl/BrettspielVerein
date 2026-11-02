@@ -33,7 +33,7 @@ class NewsletterController extends AbstractController {
     }
 
     #[Route('/newsletter', methods: ['DELETE'])]
-    function unsubscribe(#[MapQueryString] UnsubscribeDTO $unsubscribeDTO): Response
+    function unsubscribe(#[MapQueryString(validationFailedStatusCode: Response::HTTP_UNPROCESSABLE_ENTITY)] UnsubscribeDTO $unsubscribeDTO): Response
     {
         $status = $this->service->unsubscribe($unsubscribeDTO);
         switch ($status)
